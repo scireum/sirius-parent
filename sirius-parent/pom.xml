@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.scireum</groupId>
+    <artifactId>sirius-parent</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Sirius Parent</name>
+    <description>Provides a parent pom for all Sirius modules</description>
+
+    <url>http://www.sirius-lib.net</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>scireum</name>
+            <email>info@scireum.de</email>
+            <organization>scireum GmbH</organization>
+            <organizationUrl>http://www.scireum.de</organizationUrl>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+    </properties>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:scireum/${project.artifactId}.git</connection>
+        <developerConnection>scm:git:git@github.com:scireum/${project.artifactId}.git</developerConnection>
+        <url>git@github.com:scireum/${project.artifactId}.git</url>
+    </scm>
+
+
+    <profiles>
+        <profile>
+            <id>build</id>
+            <activation>
+                <file>
+                    <missing>nobuild.txt</missing>
+                </file>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>**/*.conf</include>
+                        </includes>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>false</filtering>
+                        <excludes>
+                            <exclude>**/*.conf</exclude>
+                        </excludes>
+                    </resource>
+                </resources>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>docs</directory>
+                    </testResource>
+                </testResources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>2.4</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/*Test.*</exclude>
+                                <exclude>**/*Spec.*</exclude>
+                                <exclude>**/*Spec$*</exclude>
+                                <exclude>**/*Test$*</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>test-jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.3</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.12.1</version>
+                        <configuration>
+                            <includes>
+                                <include>TestSuite.java</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>2.15</version>
+                        <executions>
+                            <execution>
+                                <id>validate</id>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <configLocation>checkstyle.xml</configLocation>
+                                    <encoding>UTF-8</encoding>
+                                    <consoleOutput>true</consoleOutput>
+                                    <failsOnError>false</failsOnError>
+                                </configuration>
+                                <goals>
+                                    <goal>checkstyle</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.scireum</groupId>
+                                <artifactId>sirius-build</artifactId>
+                                <version>1.0-SNAPSHOT</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <id>test-compile</id>
+                                <phase>test-compile</phase>
+                                <configuration>
+                                    <target>
+                                        <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">
+                                            <classpath refid="maven.test.classpath"/>
+                                        </taskdef>
+                                        <mkdir dir="${project.build.testOutputDirectory}"/>
+                                        <groovyc srcdir="${basedir}/src/test/java"
+                                                 destdir="${project.build.testOutputDirectory}"
+                                                 encoding="${project.build.sourceEncoding}">
+                                            <classpath refid="maven.test.classpath"/>
+                                        </groovyc>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.1</version>
+                        <configuration>
+                            <compilerVersion>1.8</compilerVersion>
+                            <fork>true</fork>
+                            <source>1.8</source>
+                            <target>1.8</target>
+                            <debug>true</debug>
+                            <optimize>true</optimize>
+                            <showDeprecation>true</showDeprecation>
+                            <showWarnings>true</showWarnings>
+                            <compilerArgument>-Xlint:-options,unchecked,deprecation</compilerArgument>
+                            <excludes>
+                                <exclude>**/package-info.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <links>
+                                <link>http://sirius-lib.net/apidocs/sirius-kernel</link>
+                                <link>http://sirius-lib.net/apidocs/sirius-web</link>
+                                <link>http://sirius-lib.net/apidocs/sirius-db</link>
+                                <link>http://sirius-lib.net/apidocs/sirius-search</link>
+                                <link>http://sirius-lib.net/apidocs/sirius-biz</link>
+                                <link>http://netty.io/4.0/api/</link>
+                            </links>
+                            <failOnError>false</failOnError>
+                            <breakiterator>true</breakiterator>
+                            <version>false</version>
+                            <author>false</author>
+                            <keywords>true</keywords>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>idea</id>
+            <activation>
+                <file>
+                    <exists>.idea</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.9</version>
+                        <executions>
+                            <execution>
+                                <id>validate</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.scireum</groupId>
+                                            <artifactId>sirius-build</artifactId>
+                                            <version>1.0-SNAPSHOT</version>
+                                            <type>jar</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.basedir}</outputDirectory>
+                                            <includes>.idea/**</includes>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+    <dependencies>
+
+        <!-- Include JUnit for testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Include JUNIT-Toolbox for testing -->
+        <dependency>
+            <groupId>com.googlecode.junit-toolbox</groupId>
+            <artifactId>junit-toolbox</artifactId>
+            <version>2.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Include Spock for testing -->
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+            <version>0.7-groovy-2.0</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>
