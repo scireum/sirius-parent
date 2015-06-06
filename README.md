@@ -3,10 +3,10 @@
 Provides a [parent pom](sirius-build/pom.xml) for Sirius components and [one](sirius-app-parent/pom.xml) for Sirius applications. 
 Also provides a [build time dependency](sirius-build), which is used to distribute checkstyle and some IntelliJ settings.
 
+This is a module of the Sirius OpenSource project by scireum GmbH. For further information visit the project website: [sirius-lib.net](http://sirius-lib.net)
+
 If you have questions or are just curious, please feel welcome to join the chat room:
 [![Join the chat at https://gitter.im/scireum/sirius-kernel](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/scireum/OpenSource?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-This is a module of the Sirius OpenSource project by scireum GmbH. For further information visit the project website: http://sirius-lib.net
 
 ## Contributions
 
