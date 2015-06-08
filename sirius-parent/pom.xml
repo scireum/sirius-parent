@@ -150,7 +150,7 @@
                         <executions>
                             <execution>
                                 <id>groovyc</id>
-                                <phase>compile</phase>
+                                <phase>test-compile</phase>
                                 <configuration>
                                     <target>
                                         <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">
