@@ -16,7 +16,6 @@
     <inspection_tool class="AndroidLintButtonOrder" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintContentDescription" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintDisableBaselineAlignment" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="AndroidLintDrawAllocation" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintDuplicateIds" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintDuplicateIncludedIds" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintEnforceUTF8" enabled="false" level="WARNING" enabled_by_default="false" />
@@ -673,7 +672,7 @@
       <option name="ignoreObjectMethods" value="false" />
       <option name="ignoreAnonymousClassMethods" value="false" />
     </inspection_tool>
-    <inspection_tool class="MissingPackageInfo" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="MissingPackageInfo" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="MissortedModifiers" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_requireAnnotationsFirst" value="true" />
     </inspection_tool>
@@ -968,7 +967,9 @@
     <inspection_tool class="UtilityClassWithPublicConstructor" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="UtilityClassWithoutPrivateConstructor" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignorableAnnotations">
-        <value />
+        <value>
+          <item value="org.junit.runner.RunWith" />
+        </value>
       </option>
       <option name="ignoreClassesWithOnlyMain" value="true" />
     </inspection_tool>

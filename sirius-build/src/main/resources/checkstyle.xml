@@ -19,7 +19,6 @@
         <property name="fileExtensions" value="properties"/>
     </module>
     <module name="FileTabCharacter"/>
-    <module name="JavadocPackage"/>
 
     <!-- Bad spelling of Sirius -->
     <module name="RegexpSingleline">
