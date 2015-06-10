@@ -2,6 +2,10 @@
 <!DOCTYPE module PUBLIC
         "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
         "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<!--
+    This file will not check JavaDoc comments for methods and Variables.
+    You are still encouraged to write ones
+-->
 <module name="Checker">
     <module name="Header">
         <property name="header"
@@ -41,6 +45,10 @@
         <property name="format" value="File \| Settings \| File Templates"/>
         <property name="message" value="IDE-generated comment"/>
     </module>
+    <module name="RegexpMultiline">
+        <property name="format" value="/\*\*\n \* Created by[^n]+\n \*/"/>
+        <property name="message" value="IDE-generated comment"/>
+    </module>
     <!-- Trailing whitespace -->
     <module name="RegexpSingleline">
         <property name="format" value="\s+$"/>
@@ -63,19 +71,7 @@
 
     <module name="TreeWalker">
         <module name="JavadocType">
-            <property name="scope" value="package"/>
-        </module>
-        <module name="JavadocMethod">
             <property name="scope" value="public"/>
-            <property name="allowUndeclaredRTE" value="true"/>
-            <property name="allowMissingPropertyJavadoc" value="true"/>
-            <property name="minLineCount" value="1"/>
-            <property name="tokens" value="CTOR_DEF,METHOD_DEF"/>
-        </module>
-        <module name="JavadocVariable">
-            <property name="scope" value="public"/>
-            <property name="ignoreNamePattern" value="log"/>
-            <property name="tokens" value="VARIABLE_DEF"/>
         </module>
         <module name="LineLength">
             <property name="max" value="130"/>
@@ -87,6 +83,8 @@
         </module>
         <module name="MissingOverride"/>
         <module name="PackageAnnotation"/>
+        <module name="AnnotationLocation" />
+        <module name="SuppressWarningsHolder" />
         <module name="EmptyBlock">
             <property name="option" value="text"/>
         </module>

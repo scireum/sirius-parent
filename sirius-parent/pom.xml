@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.scireum</groupId>
     <artifactId>sirius-parent</artifactId>
-    <version>1.3.1</version>
+    <version>1.6</version>
     <packaging>pom</packaging>
 
     <name>Sirius Parent</name>
@@ -34,6 +34,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+        <checkstyle.file>checkstyle-strict.xml</checkstyle.file>
+        <sirius.build.version>1.3</sirius.build.version>
     </properties>
 
     <distributionManagement>
@@ -124,7 +126,7 @@
                                 <id>validate</id>
                                 <phase>validate</phase>
                                 <configuration>
-                                    <configLocation>checkstyle.xml</configLocation>
+                                    <configLocation>${checkstyle.file}</configLocation>
                                     <encoding>UTF-8</encoding>
                                     <consoleOutput>true</consoleOutput>
                                     <failsOnError>false</failsOnError>
@@ -138,7 +140,7 @@
                             <dependency>
                                 <groupId>com.scireum</groupId>
                                 <artifactId>sirius-build</artifactId>
-                                <version>1.1.1</version>
+                                <version>${sirius.build.version}</version>
                             </dependency>
                         </dependencies>
                     </plugin>
@@ -260,7 +262,7 @@
                                         <artifactItem>
                                             <groupId>com.scireum</groupId>
                                             <artifactId>sirius-build</artifactId>
-                                            <version>1.1.1</version>
+                                            <version>${sirius.build.version}</version>
                                             <type>jar</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.basedir}</outputDirectory>
@@ -274,37 +276,77 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>idea-multi</id>
+            <activation>
+                <file>
+                    <exists>../.idea</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.9</version>
+                        <executions>
+                            <execution>
+                                <id>validate</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.scireum</groupId>
+                                            <artifactId>sirius-build</artifactId>
+                                            <version>${sirius.build.version}</version>
+                                            <type>jar</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.basedir}/..</outputDirectory>
+                                            <includes>.idea/**</includes>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 
     <build>
-      <plugins>
-        <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.3</version>
-            <extensions>true</extensions>
-            <configuration>
-                <serverId>ossrh</serverId>
-                <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                <autoReleaseAfterClose>true</autoReleaseAfterClose>
-            </configuration>
-        </plugin>
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.3</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
 
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.4</version>
-            <executions>
-                <execution>
-                    <id>sign-artifacts</id>
-                    <phase>verify</phase>
-                    <goals>
-                        <goal>sign</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-      </plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
     <dependencies>
 
@@ -340,10 +382,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>org.objenesis</groupId>
-          <artifactId>objenesis</artifactId>
-          <version>2.1</version>
-          <scope>test</scope>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+            <version>2.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
