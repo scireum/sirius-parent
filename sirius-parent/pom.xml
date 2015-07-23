@@ -35,7 +35,7 @@
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
         <checkstyle.file>checkstyle-strict.xml</checkstyle.file>
-        <sirius.build.version>1.5</sirius.build.version>
+        <sirius.build.version>1.6</sirius.build.version>
     </properties>
 
     <distributionManagement>
