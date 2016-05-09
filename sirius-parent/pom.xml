@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.scireum</groupId>
     <artifactId>sirius-parent</artifactId>
-    <version>2.0.2</version>
+    <version>2.1</version>
     <packaging>pom</packaging>
 
     <name>Sirius Parent</name>
@@ -35,7 +35,7 @@
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
         <checkstyle.file>checkstyle-strict.xml</checkstyle.file>
-        <sirius.build.version>2.0</sirius.build.version>
+        <sirius.build.version>2.2</sirius.build.version>
     </properties>
 
     <distributionManagement>
