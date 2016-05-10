@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    The is the parent POM used by all scireum and sirius projects.
+    This will enforce a sane build process and upload artifacts to sonatype
+    or applications to SDS.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.scireum</groupId>
     <artifactId>sirius-parent</artifactId>
-    <version>2.1</version>
+    <version>3.0.3</version>
     <packaging>pom</packaging>
 
+    <!-- Overwrite this block if necessary -->
     <name>Sirius Parent</name>
     <description>Provides a parent pom for all Sirius modules</description>
-
     <url>http://www.sirius-lib.net</url>
     <licenses>
         <license>
@@ -18,7 +23,6 @@
             <url>http://opensource.org/licenses/MIT</url>
         </license>
     </licenses>
-
     <developers>
         <developer>
             <name>scireum</name>
@@ -34,10 +38,71 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+
+        <!-- You can lower the checkstyle checks by using checkstyle-basic.xml instead -->
         <checkstyle.file>checkstyle-strict.xml</checkstyle.file>
-        <sirius.build.version>2.2</sirius.build.version>
+
+        <!-- Determines the IPL version used by applications -->
+        <sirius.ipl.version>1.3</sirius.ipl.version>
+
+        <!-- Contains a copy of the effective version of the parent pom as it is referenced
+             to load certain resources -->
+        <sirius.parent.version>3.0.3</sirius.parent.version>
+
+        <!-- Settings to control the scm owner -->
+        <project.owner>scireum</project.owner>
+        <project.repository>${project.artifactId}</project.repository>
     </properties>
 
+    <!-- Adds the sonatype repositories - especially SNAPSHOTS -->
+    <repositories>
+        <repository>
+            <id>snapshots-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>releases-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>snapshots-plugin-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>releases-plugin-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <!-- Determines the default upload repository for snapshots -->
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -45,13 +110,16 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <!-- Builds a SCM url for github based on the owner and artifact id -->
     <scm>
-        <connection>scm:git:git@github.com:scireum/${project.artifactId}.git</connection>
-        <developerConnection>scm:git:git@github.com:scireum/${project.artifactId}.git</developerConnection>
-        <url>git@github.com:scireum/${project.artifactId}.git</url>
+        <connection>scm:git:git@github.com:${project.owner}/${project.repository}.git</connection>
+        <developerConnection>scm:git:git@github.com:${project.owner}/${project.repository}.git</developerConnection>
+        <url>git@github.com:${project.owner}/${project.repository}.git</url>
     </scm>
 
     <profiles>
+        <!-- This profile performs the bulk part of the build. (Compiling, Tests, ...)
+             It is deactivated for the parent itself, as there is nothing to compile -->
         <profile>
             <id>build</id>
             <activation>
@@ -139,8 +207,8 @@
                         <dependencies>
                             <dependency>
                                 <groupId>com.scireum</groupId>
-                                <artifactId>sirius-build</artifactId>
-                                <version>${sirius.build.version}</version>
+                                <artifactId>sirius-parent</artifactId>
+                                <version>${sirius.parent.version}</version>
                             </dependency>
                         </dependencies>
                     </plugin>
@@ -176,7 +244,7 @@
                         <artifactId>maven-compiler-plugin</artifactId>
                         <version>3.1</version>
                         <configuration>
-                            <compilerVersion>1.8</compilerVersion>
+                            <compilerVersion>${maven.compiler.source}</compilerVersion>
                             <fork>true</fork>
                             <source>${maven.compiler.source}</source>
                             <target>${maven.compiler.target}</target>
@@ -234,10 +302,169 @@
                             <keywords>true</keywords>
                         </configuration>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>
+        <!-- This profile deploys libraries to sonatype nexus -->
+        <profile>
+            <id>deploy-nexus</id>
+            <activation>
+                <file>
+                    <missing>src/main/resources/application.conf</missing>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.3</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- This profile uploads applications to sds -->
+        <profile>
+            <id>build-app</id>
+            <activation>
+                <file>
+                    <exists>src/main/resources/application.conf</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.9</version>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.scireum</groupId>
+                                            <artifactId>sirius-ipl</artifactId>
+                                            <version>${sirius.ipl.version}</version>
+                                            <type>jar</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}/ipl</outputDirectory>
+                                            <excludes>META-INF</excludes>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${project.build.directory}/ipl</outputDirectory>
+                                    <overWriteReleases>true</overWriteReleases>
+                                    <overWriteSnapshots>true</overWriteSnapshots>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>zip</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>${project.artifactId}-${project.version}</finalName>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.scireum</groupId>
+                                <artifactId>sirius-parent</artifactId>
+                                <version>${sirius.parent.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.scireum</groupId>
+                        <artifactId>sds-maven-plugin</artifactId>
+                        <version>2.0</version>
+                        <configuration>
+                            <developmentArtifact>${sds.developmentArtifact}</developmentArtifact>
+                            <releaseArtifact>${sds.releaseArtifact}</releaseArtifact>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>sds</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- This is exlusively used to create the resources jar for the parent pom.
+             This contains the checkstyle and IntelliJ settings -->
+        <profile>
+            <id>build-parent</id>
+            <activation>
+                <file>
+                    <exists>nobuild.txt</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.5.5</version>
+                        <configuration>
+                            <descriptor>parent-jar.xml</descriptor>
+                            <finalName>${project.artifactId}-${project.version}</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Updates the IntelliJ IDEA project if present -->
         <profile>
             <id>idea</id>
             <activation>
@@ -262,8 +489,8 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>com.scireum</groupId>
-                                            <artifactId>sirius-build</artifactId>
-                                            <version>${sirius.build.version}</version>
+                                            <artifactId>sirius-parent</artifactId>
+                                            <version>${sirius.parent.version}</version>
                                             <type>jar</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.basedir}</outputDirectory>
@@ -277,6 +504,9 @@
                 </plugins>
             </build>
         </profile>
+
+        <!-- Updates the IntelliJ IDEA Project if present as parent project. -->
+        <!-- Sometimes multiple artifacts are stored in one project... -->
         <profile>
             <id>idea-multi</id>
             <activation>
@@ -301,8 +531,8 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>com.scireum</groupId>
-                                            <artifactId>sirius-build</artifactId>
-                                            <version>${sirius.build.version}</version>
+                                            <artifactId>sirius-parent</artifactId>
+                                            <version>${sirius.parent.version}</version>
                                             <type>jar</type>
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.basedir}/..</outputDirectory>
@@ -319,41 +549,11 @@
 
     </profiles>
 
+
     <build>
+        <!-- We use git tags to ensure that a release isn't performed twice -->
         <plugins>
             <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.3</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.7</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-             <plugin>
                 <groupId>com.scireum</groupId>
                 <artifactId>github-tag-plugin</artifactId>
                 <version>1.1.2</version>
@@ -367,6 +567,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- We never use the classic maven deploy -->
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>
