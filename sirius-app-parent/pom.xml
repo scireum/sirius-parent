@@ -20,7 +20,6 @@
         <sds.developmentArtifact/>
         <sds.releaseArtifact/>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <sirius.ipl.version>1.3</sirius.ipl.version>
     </properties>
 
     <profiles>
@@ -107,15 +106,5 @@
             </build>
         </profile>
     </profiles>
-
-    <dependencies>
-
-        <dependency>
-            <groupId>com.scireum</groupId>
-            <artifactId>sirius-ipl</artifactId>
-            <version>${sirius.ipl.version}</version>
-        </dependency>
-
-    </dependencies>
 
 </project>
