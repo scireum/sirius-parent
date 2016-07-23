@@ -3,19 +3,19 @@
         "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
         "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 <module name="Checker">
+    <!-- Check that there is at least any type of comment at the beginning -->
     <module name="Header">
-        <property name="header"
-                  value="/*\n * Made with all the love in the world\n * by scireum in Remshalden, Germany\n *\n * Copyright by scireum GmbH\n * http://www.scireum.de - info@scireum.de\n */\n\n"/>
+        <property name="header" value="/*"/>
         <property name="fileExtensions" value="java"/>
     </module>
     <module name="Header">
         <property name="header"
-                  value="#\n# Made with all the love in the world\n# by scireum in Remshalden, Germany\n#\n# Copyright by scireum GmbH\n# http://www.scireum.de - info@scireum.de\n#\n\n"/>
+                  value="#"/>
         <property name="fileExtensions" value="conf"/>
     </module>
     <module name="Header">
         <property name="header"
-                  value="#\n# Made with all the love in the world\n# by scireum in Remshalden, Germany\n#\n# Copyright by scireum GmbH\n# http://www.scireum.de - info@scireum.de\n#\n\n"/>
+                  value="#"/>
         <property name="fileExtensions" value="properties"/>
     </module>
     <module name="FileTabCharacter"/>
@@ -30,12 +30,14 @@
         <property name="format" value="\s*\*\s*Scireum.*"/>
         <property name="message" value="Scireum must be spelled 'scireum'"/>
     </module>
+
     <!-- Unmaintainable Javadoc tags -->
     <module name="RegexpSingleline">
         <property name="format" value="(@(author|version|since)|\(non-Javadoc\))"/>
         <property name="ignoreCase" value="true"/>
         <property name="message" value="unmaintainable Javadoc tags: @author, @version, @since, or (non-Javadoc)"/>
     </module>
+
     <!-- IDE-generated comment -->
     <module name="RegexpSingleline">
         <property name="format" value="File \| Settings \| File Templates"/>
@@ -45,16 +47,19 @@
         <property name="format" value="/\*\*\n \* Created by[^n]+\n \*/"/>
         <property name="message" value="IDE-generated comment"/>
     </module>
+
     <!-- Trailing whitespace -->
     <module name="RegexpSingleline">
         <property name="format" value="\s+$"/>
         <property name="message" value="trailing whitespace"/>
     </module>
+
     <!-- Prohibit consecutive empty lines (except the lines after package/import) -->
     <module name="RegexpMultiline">
         <property name="format" value="\n *(?!package )(?!import )[^\n]+\n{3,}"/>
         <property name="message" value="two or more consecutive empty lines"/>
     </module>
+
     <!-- Prohibit an empty after { or before } -->
     <module name="RegexpMultiline">
         <property name="format" value="\n\n\s+\}[^\n]{0,10}\n"/>

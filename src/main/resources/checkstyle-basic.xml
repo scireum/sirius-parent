@@ -8,18 +8,17 @@
 -->
 <module name="Checker">
     <module name="Header">
-        <property name="header"
-                  value="/*\n * Made with all the love in the world\n * by scireum in Remshalden, Germany\n *\n * Copyright by scireum GmbH\n * http://www.scireum.de - info@scireum.de\n */\n\n"/>
+        <property name="header" value="/*"/>
         <property name="fileExtensions" value="java"/>
     </module>
     <module name="Header">
         <property name="header"
-                  value="#\n# Made with all the love in the world\n# by scireum in Remshalden, Germany\n#\n# Copyright by scireum GmbH\n# http://www.scireum.de - info@scireum.de\n#\n\n"/>
+                  value="#"/>
         <property name="fileExtensions" value="conf"/>
     </module>
     <module name="Header">
         <property name="header"
-                  value="#\n# Made with all the love in the world\n# by scireum in Remshalden, Germany\n#\n# Copyright by scireum GmbH\n# http://www.scireum.de - info@scireum.de\n#\n\n"/>
+                  value="#"/>
         <property name="fileExtensions" value="properties"/>
     </module>
     <module name="FileTabCharacter"/>
