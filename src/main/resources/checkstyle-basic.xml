@@ -35,7 +35,7 @@
     </module>
     <!-- Unmaintainable Javadoc tags -->
     <module name="RegexpSingleline">
-        <property name="format" value="(@(author|version|since)|\(non-Javadoc\))"/>
+        <property name="format" value="(@(author|version|since)(\s|$)|\(non-Javadoc\))"/>
         <property name="ignoreCase" value="true"/>
         <property name="message" value="unmaintainable Javadoc tags: @author, @version, @since, or (non-Javadoc)"/>
     </module>
