@@ -53,6 +53,10 @@
         <!-- Settings to control the scm owner -->
         <project.owner>scireum</project.owner>
         <project.repository>${project.artifactId}</project.repository>
+
+        <!-- By default we update the copyright to the sirius/scireum text -->
+        <!-- As "real" companies also use this parent, the following can be set to exclude the enforces copyright -->
+        <!-- <sirius.ideaExcludes>.idea/copyright/**</sirius.ideaExcludes> -->
     </properties>
 
     <!-- Adds the sonatype repositories - especially SNAPSHOTS -->
@@ -509,6 +513,7 @@
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.basedir}</outputDirectory>
                                             <includes>.idea/**</includes>
+                                            <excludes>${sirius.ideaExcludes}</excludes>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
