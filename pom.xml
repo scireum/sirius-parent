@@ -556,6 +556,7 @@
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.basedir}/..</outputDirectory>
                                             <includes>.idea/**</includes>
+                                            <excludes>${sirius.ideaExcludes}</excludes>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
