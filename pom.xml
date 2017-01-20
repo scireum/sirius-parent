@@ -303,9 +303,22 @@
                             <keywords>true</keywords>
                         </configuration>
                     </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>2.3</version>
+                        <executions>
+                            <execution>
+                                <id>display-updates</id>
+                                <phase>validate</phase>
+                                <goals><goal>display-dependency-updates</goal></goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
+
         <!-- This profile deploys libraries to sonatype nexus -->
         <profile>
             <id>deploy-nexus</id>
