@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.scireum</groupId>
     <artifactId>sirius-parent</artifactId>
-    <version>3.6</version>
+    <version>3.7</version>
     <packaging>pom</packaging>
 
     <!-- Overwrite this block if necessary -->
@@ -53,6 +53,10 @@
         <!-- Settings to control the scm owner -->
         <project.owner>scireum</project.owner>
         <project.repository>${project.artifactId}</project.repository>
+
+        <!-- By default we update the copyright to the sirius/scireum text -->
+        <!-- As "real" companies also use this parent, the following can be set to exclude the enforces copyright -->
+        <!-- <sirius.ideaExcludes>.idea/copyright/**</sirius.ideaExcludes> -->
     </properties>
 
     <!-- Adds the sonatype repositories - especially SNAPSHOTS -->
@@ -303,9 +307,22 @@
                             <keywords>true</keywords>
                         </configuration>
                     </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <version>2.3</version>
+                        <executions>
+                            <execution>
+                                <id>display-updates</id>
+                                <phase>validate</phase>
+                                <goals><goal>display-dependency-updates</goal></goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
+
         <!-- This profile deploys libraries to sonatype nexus -->
         <profile>
             <id>deploy-nexus</id>
@@ -496,6 +513,7 @@
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.basedir}</outputDirectory>
                                             <includes>.idea/**</includes>
+                                            <excludes>${sirius.ideaExcludes}</excludes>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -538,6 +556,7 @@
                                             <overWrite>true</overWrite>
                                             <outputDirectory>${project.basedir}/..</outputDirectory>
                                             <includes>.idea/**</includes>
+                                            <excludes>${sirius.ideaExcludes}</excludes>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -586,7 +605,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
 
@@ -594,7 +613,7 @@
         <dependency>
             <groupId>com.googlecode.junit-toolbox</groupId>
             <artifactId>junit-toolbox</artifactId>
-            <version>2.0</version>
+            <version>2.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -602,7 +621,7 @@
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
-            <version>0.7-groovy-2.0</version>
+            <version>1.1-groovy-2.4-rc-3</version>
             <scope>test</scope>
         </dependency>
 
@@ -610,13 +629,13 @@
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
-            <version>3.1</version>
+            <version>3.2.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
-            <version>2.1</version>
+            <version>2.5.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
