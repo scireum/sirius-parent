@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.scireum</groupId>
     <artifactId>sirius-parent</artifactId>
-    <version>3.8.3</version>
+    <version>3.9</version>
     <packaging>pom</packaging>
 
     <!-- Overwrite this block if necessary -->
@@ -48,7 +48,7 @@
         <!-- Contains a copy of the effective version of the parent pom as it is referenced
              to load certain resources -->
         <!-- Do not use ${project.version} here, as it is overwritten by the child pom! -->     
-        <sirius.parent.version>3.8.2</sirius.parent.version>
+        <sirius.parent.version>3.8.3</sirius.parent.version>
 
         <!-- Settings to control the scm owner -->
         <project.owner>scireum</project.owner>
@@ -316,6 +316,20 @@
                                 <id>display-updates</id>
                                 <phase>validate</phase>
                                 <goals><goal>display-dependency-updates</goal></goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
