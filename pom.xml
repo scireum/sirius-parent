@@ -718,7 +718,8 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test-junit</artifactId>
             <version>${kotlin.version}</version>
-
+        </dependency>
+        
         <!-- Included to utilize docker during tests -->
         <dependency>
             <groupId>com.palantir.docker.compose</groupId>
