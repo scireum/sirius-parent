@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.scireum</groupId>
     <artifactId>sirius-parent</artifactId>
-    <version>3.11.4</version>
+    <version>3.12</version>
     <packaging>pom</packaging>
 
     <!-- Overwrite this block if necessary -->
@@ -85,7 +85,18 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>bintray-palantir</id>
+            <url>https://dl.bintray.com/palantir/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
+
     <pluginRepositories>
         <pluginRepository>
             <id>snapshots-plugin-repo</id>
@@ -707,6 +718,12 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test-junit</artifactId>
             <version>${kotlin.version}</version>
+
+        <!-- Included to utilize docker during tests -->
+        <dependency>
+            <groupId>com.palantir.docker.compose</groupId>
+            <artifactId>docker-compose-rule-junit4</artifactId>
+            <version>0.31.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
