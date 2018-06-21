@@ -11,16 +11,7 @@
         <property name="header" value="/*"/>
         <property name="fileExtensions" value="java"/>
     </module>
-    <module name="Header">
-        <property name="header"
-                  value="#"/>
-        <property name="fileExtensions" value="conf"/>
-    </module>
-    <module name="Header">
-        <property name="header"
-                  value="#"/>
-        <property name="fileExtensions" value="properties"/>
-    </module>
+
     <module name="FileTabCharacter"/>
 
     <!-- Bad spelling of Sirius -->
