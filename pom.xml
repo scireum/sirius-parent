@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.scireum</groupId>
     <artifactId>sirius-parent</artifactId>
-    <version>3.14</version>
+    <version>4.0</version>
     <packaging>pom</packaging>
 
     <!-- Overwrite this block if necessary -->
@@ -51,7 +51,7 @@
         <!-- Contains a copy of the effective version of the parent pom as it is referenced
              to load certain resources -->
         <!-- Do not use ${project.version} here, as it is overwritten by the child pom! -->     
-        <sirius.parent.version>3.14</sirius.parent.version>
+        <sirius.parent.version>4.0</sirius.parent.version>
 
         <!-- Settings to control the scm owner -->
         <project.owner>scireum</project.owner>
@@ -679,14 +679,6 @@
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
             <version>2.5.1</version>
-            <scope>test</scope>
-        </dependency>
-        
-        <!-- Included to utilize docker during tests -->
-        <dependency>
-            <groupId>com.palantir.docker.compose</groupId>
-            <artifactId>docker-compose-rule-junit4</artifactId>
-            <version>0.31.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
