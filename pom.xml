@@ -595,6 +595,7 @@
 
     </profiles>
     <build>
+        <plugins>
             <!-- We never use the classic maven deploy -->
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
