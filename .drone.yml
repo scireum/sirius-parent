@@ -4,7 +4,7 @@ clone:
     volumes:
     - /var/repos/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}:/drone/src/github.com/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}
 pipeline:
-  test:
+  validate:
     image: scireum/sirius-build
     commands:
       - mvn clean validate -U
