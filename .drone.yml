@@ -10,11 +10,11 @@ pipeline:
       - mvn clean validate -U
     volumes:
       - /root/.m2:/root/.m2
-      - /root/.gnupg:/root/.gnupg
       - /var/repos/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}:/drone/src/github.com/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}
   deploy:
     image: scireum/sirius-build
     commands:
+     - export GPG_TTY=$(tty)
       - mvn clean deploy -Dbuild.version=${DRONE_TAG}
     volumes:
       - /root/.m2:/root/.m2
