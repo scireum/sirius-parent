@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.scireum</groupId>
     <artifactId>sirius-parent</artifactId>
-    <version>${build.version}</version>
+    <version>DEVELOPMENT-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <!-- Overwrite this block if necessary -->
@@ -40,7 +40,6 @@
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
         <build.number>${DRONE_BUILD_NUMBER}</build.number>
         <build.vcs.number>${DRONE_COMMIT}</build.vcs.number>
-        <build.version>DEVELOPMENT_SNAPSHOT</build.version>
 
         <!-- You can lower the checkstyle checks by using checkstyle-basic.xml instead -->
         <checkstyle.file>checkstyle-strict.xml</checkstyle.file>
