@@ -14,7 +14,8 @@ pipeline:
   deploy:
     image: scireum/sirius-build
     commands:
-      - mvn clean deploy -Dbuild.version=${DRONE_TAG}
+      - sed -- 's/DEVELOPMENT-SNAPSHOT/${DRONE_TAG}/g' pom.xml
+      - mvn clean deploy
     volumes:
       - /root/.m2:/root/.m2
       - /root/.gnupg:/root/.gnupg
