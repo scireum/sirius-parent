@@ -14,7 +14,7 @@ pipeline:
   deploy:
     image: scireum/sirius-build
     commands:
-      - sed -- 's/DEVELOPMENT-SNAPSHOT/${DRONE_TAG}/g' pom.xml
+      - sed -i 's/DEVELOPMENT-SNAPSHOT/${DRONE_TAG}/g' pom.xml
       - mvn clean deploy
     volumes:
       - /root/.m2:/root/.m2
