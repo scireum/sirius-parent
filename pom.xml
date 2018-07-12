@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.scireum</groupId>
     <artifactId>sirius-parent</artifactId>
-    <version>4.0</version>
+    <version>${build.version}</version>
     <packaging>pom</packaging>
 
     <!-- Overwrite this block if necessary -->
@@ -38,15 +38,15 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+        <build.number>${DRONE_BUILD_NUMBER}</build.number>
+        <build.vcs.number>${DRONE_COMMIT}</build.vcs.number>
+        <build.version>DEVELOPMENT_SNAPSHOT</build.version>
 
         <!-- You can lower the checkstyle checks by using checkstyle-basic.xml instead -->
         <checkstyle.file>checkstyle-strict.xml</checkstyle.file>
 
         <!-- Determines the IPL version used by applications -->
         <sirius.ipl.version>1.3</sirius.ipl.version>
-
-        <!-- Determines the Kotlin version used for compiling .kt files -->
-        <kotlin.version>1.1.4-3</kotlin.version>
 
         <!-- Contains a copy of the effective version of the parent pom as it is referenced
              to load certain resources -->
@@ -405,7 +405,7 @@
             </build>
         </profile>
 
-        <!-- This profile uploads applications to sds -->
+        <!-- This profile bundles applications so that they can be bundled into docker images -->
         <profile>
             <id>build-app</id>
             <activation>
@@ -469,23 +469,6 @@
                                 <version>${sirius.parent.version}</version>
                             </dependency>
                         </dependencies>
-                    </plugin>
-                    <plugin>
-                        <groupId>com.scireum</groupId>
-                        <artifactId>sds-maven-plugin</artifactId>
-                        <version>2.2</version>
-                        <configuration>
-                            <developmentArtifact>${sds.developmentArtifact}</developmentArtifact>
-                            <releaseArtifact>${sds.releaseArtifact}</releaseArtifact>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>deploy</phase>
-                                <goals>
-                                    <goal>sds</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -611,27 +594,7 @@
         </profile>
 
     </profiles>
-
-
     <build>
-        <!-- We use git tags to ensure that a release isn't performed twice -->
-        <plugins>
-            <plugin>
-                <groupId>com.scireum</groupId>
-                <artifactId>github-tag-plugin</artifactId>
-                <version>1.2</version>
-                <executions>
-                    <execution>
-                        <id>tag</id>
-                        <goals>
-                            <goal>tagBuild</goal>
-                            <goal>verifyReleaseTag</goal>
-                            <goal>addReleaseTag</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- We never use the classic maven deploy -->
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
