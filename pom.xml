@@ -50,7 +50,7 @@
         <!-- Contains a copy of the effective version of the parent pom as it is referenced
              to load certain resources -->
         <!-- Do not use ${project.version} here, as it is overwritten by the child pom! -->     
-        <sirius.parent.version>4.0</sirius.parent.version>
+        <sirius.parent.version>DEVELOPMENT-SNAPSHOT</sirius.parent.version>
 
         <!-- Settings to control the scm owner -->
         <project.owner>scireum</project.owner>
@@ -450,9 +450,9 @@
                         <artifactId>maven-assembly-plugin</artifactId>
                         <configuration>
                             <descriptorRefs>
-                                <descriptorRef>zip</descriptorRef>
+                                <descriptorRef>dir</descriptorRef>
                             </descriptorRefs>
-                            <finalName>${project.artifactId}-${project.version}</finalName>
+                            <finalName>release</finalName>
                         </configuration>
                         <executions>
                             <execution>
