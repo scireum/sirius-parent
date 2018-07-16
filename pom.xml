@@ -181,6 +181,7 @@
                                 <exclude>**/*Spec.*</exclude>
                                 <exclude>**/*Spec$*</exclude>
                                 <exclude>**/*Test$*</exclude>
+                                <exclude>**/test.conf</exclude>
                             </excludes>
                         </configuration>
                         <executions>
