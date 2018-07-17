@@ -45,7 +45,7 @@
         <checkstyle.file>checkstyle-strict.xml</checkstyle.file>
 
         <!-- Determines the IPL version used by applications -->
-        <sirius.ipl.version>2.0-rc2</sirius.ipl.version>
+        <sirius.ipl.version>2.0-rc3</sirius.ipl.version>
 
         <!-- Contains a copy of the effective version of the parent pom as it is referenced
              to load certain resources -->
