@@ -23,10 +23,6 @@
     </dependencySets>
     <fileSets>
         <fileSet>
-            <directory>${project.build.directory}/ipl</directory>
-            <outputDirectory>/</outputDirectory>
-        </fileSet>
-        <fileSet>
             <directory>${project.build.directory}/classes</directory>
             <outputDirectory>app</outputDirectory>
         </fileSet>

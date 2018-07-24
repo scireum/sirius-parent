@@ -44,9 +44,6 @@
         <!-- You can lower the checkstyle checks by using checkstyle-basic.xml instead -->
         <checkstyle.file>checkstyle-strict.xml</checkstyle.file>
 
-        <!-- Determines the IPL version used by applications -->
-        <sirius.ipl.version>2.0-rc4</sirius.ipl.version>
-
         <!-- Contains a copy of the effective version of the parent pom as it is referenced
              to load certain resources -->
         <!-- Do not use ${project.version} here, as it is overwritten by the child pom! -->     
@@ -326,7 +323,6 @@
                                 <link>http://sirius-lib.net/apidocs/sirius-web/</link>
                                 <link>http://sirius-lib.net/apidocs/sirius-db/</link>
                                 <link>http://sirius-lib.net/apidocs/sirius-biz/</link>
-                                <link>http://sirius-lib.net/apidocs/sirius-ipl/</link>
                                 <link>http://netty.io/4.0/api/</link>
                             </links>
                             <failOnError>false</failOnError>
@@ -415,36 +411,6 @@
             </activation>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <executions>
-                            <execution>
-                                <id>unpack</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>com.scireum</groupId>
-                                            <artifactId>sirius-ipl</artifactId>
-                                            <version>${sirius.ipl.version}</version>
-                                            <type>jar</type>
-                                            <overWrite>true</overWrite>
-                                            <outputDirectory>${project.build.directory}/ipl</outputDirectory>
-                                            <excludes>META-INF</excludes>
-                                        </artifactItem>
-                                    </artifactItems>
-                                    <outputDirectory>${project.build.directory}/ipl</outputDirectory>
-                                    <overWriteReleases>true</overWriteReleases>
-                                    <overWriteSnapshots>true</overWriteSnapshots>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
