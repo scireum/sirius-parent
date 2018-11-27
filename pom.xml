@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.scireum</groupId>
     <artifactId>sirius-parent</artifactId>
-    <version>3.14</version>
+    <version>3.15</version>
     <packaging>pom</packaging>
 
     <!-- Overwrite this block if necessary -->
@@ -51,7 +51,7 @@
         <!-- Contains a copy of the effective version of the parent pom as it is referenced
              to load certain resources -->
         <!-- Do not use ${project.version} here, as it is overwritten by the child pom! -->     
-        <sirius.parent.version>3.13</sirius.parent.version>
+        <sirius.parent.version>3.14</sirius.parent.version>
 
         <!-- Settings to control the scm owner -->
         <project.owner>scireum</project.owner>
