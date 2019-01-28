@@ -41,9 +41,6 @@
         <build.number>${DRONE_BUILD_NUMBER}</build.number>
         <build.vcs.number>${DRONE_COMMIT}</build.vcs.number>
 
-        <!-- You can lower the checkstyle checks by using checkstyle-basic.xml instead -->
-        <checkstyle.file>checkstyle-strict.xml</checkstyle.file>
-
         <!-- Contains a copy of the effective version of the parent pom as it is referenced
              to load certain resources -->
         <!-- Do not use ${project.version} here, as it is overwritten by the child pom! -->     
@@ -412,8 +409,7 @@
             </build>
         </profile>
 
-        <!-- This is exlusively used to create the resources jar for the parent pom.
-             This contains the checkstyle and IntelliJ settings -->
+        <!-- This is exlusively used to create the resources jar for the parent pom. -->
         <profile>
             <id>build-parent</id>
             <activation>
