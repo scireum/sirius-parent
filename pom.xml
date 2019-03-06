@@ -54,30 +54,11 @@
         <!-- As "real" companies also use this parent, the following can be set to exclude the enforces copyright -->
         <!-- <sirius.ideaExcludes>.idea/copyright/**</sirius.ideaExcludes> -->
     </properties>
-
-    <!-- Adds the sonatype repositories - especially SNAPSHOTS -->
     <repositories>
         <repository>
-            <id>snapshots-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>releases-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/releases</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
+            <id>scireum-mvn</id>
+            <url>https://mvn.scireum.com</url>
+        </repository>    
         <repository>
             <id>bintray-palantir</id>
             <url>https://dl.bintray.com/palantir/releases</url>
@@ -89,37 +70,11 @@
             </snapshots>
         </repository>
     </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>snapshots-plugin-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>releases-plugin-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/releases</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
-    <!-- Determines the default upload repository for snapshots -->
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
+        <repository>
+            <id>scireum-mvn</id>
+            <url>ftp://scireum-hq-prod-maven-1.scireum.com/htdocs</url>
+        </repository>
     </distributionManagement>
 
     <!-- Builds a SCM url for github based on the owner and artifact id -->
@@ -259,48 +214,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>3.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.10.4</version>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <links>
-                                <link>http://sirius-lib.net/apidocs/sirius-kernel/</link>
-                                <link>http://sirius-lib.net/apidocs/sirius-web/</link>
-                                <link>http://sirius-lib.net/apidocs/sirius-db/</link>
-                                <link>http://sirius-lib.net/apidocs/sirius-biz/</link>
-                                <link>http://netty.io/4.0/api/</link>
-                            </links>
-                            <failOnError>false</failOnError>
-                            <breakiterator>true</breakiterator>
-                            <version>false</version>
-                            <author>false</author>
-                            <keywords>true</keywords>
-                        </configuration>
-                    </plugin>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>versions-maven-plugin</artifactId>
@@ -333,7 +246,7 @@
 
         <!-- This profile deploys libraries to sonatype nexus -->
         <profile>
-            <id>deploy-nexus</id>
+            <id>deploy</id>
             <activation>
                 <file>
                     <missing>src/main/resources/application.conf</missing>
@@ -341,32 +254,23 @@
             </activation>
             <build>
                 <plugins>
+                    <!-- We never use the classic maven deploy -->
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
-                        <extensions>true</extensions>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>2.8.2</version>
                         <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <skip>false</skip>
                         </configuration>
                     </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                 </plugins>
+                <extensions>
+                    <!-- Enabling the use of FTP -->
+                    <extension>
+                        <groupId>org.apache.maven.wagon</groupId>
+                        <artifactId>wagon-ftp</artifactId>
+                        <version>1.0-beta-6</version>
+                    </extension>
+                </extensions>
             </build>
         </profile>
 
