@@ -9,6 +9,9 @@
       </option>
       <option name="JD_PRESERVE_LINE_FEEDS" value="true" />
     </JavaCodeStyleSettings>
+    <Properties>
+      <option name="SPACES_AROUND_KEY_VALUE_DELIMITER" value="true" />
+    </Properties>
     <XML>
       <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
     </XML>
