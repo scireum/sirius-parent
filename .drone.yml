@@ -1,24 +1,41 @@
+---
+scireum_volumes: &scireum_volumes
+  - name: docker_socket
+    path: /var/run/docker.sock
+  - name: m2
+    path: /root/.m2
+
+kind: pipeline
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
 clone:
-  git:
-    image: plugins/git
-    volumes:
-    - /var/repos/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}:/drone/src/github.com/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}
-pipeline:
-  validate:
+  depth: 1
+
+steps:
+  - name: validate
     image: scireum/sirius-build
     commands:
       - mvn clean validate -U
-    volumes:
-      - /root/.m2:/root/.m2
-      - /var/repos/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}:/drone/src/github.com/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}
-  deploy:
+    volumes: *scireum_volumes
+
+  - name: deploy
     image: scireum/sirius-build
     commands:
       - sed -i 's/DEVELOPMENT-SNAPSHOT/${DRONE_TAG}/g' pom.xml
       - mvn clean deploy
-    volumes:
-      - /root/.m2:/root/.m2
-      - /root/.gnupg:/root/.gnupg
-      - /var/repos/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}:/drone/src/github.com/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME}
+    volumes: *scireum_volumes
     when:
-      event: tag
+      event:
+        - tag
+
+volumes:
+  - name: docker_socket
+    host:
+      path: /var/run/docker.sock
+  - name: m2
+    host:
+      path: /root/.m2
