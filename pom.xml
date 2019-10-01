@@ -36,8 +36,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <!-- Highlight all warnings -->
-        <maven.compiler.lint>-Xlint:all</maven.compiler.lint>
+        <!-- Highlight unchecked and deprecation warnings -->
+        <maven.compiler.lint>-Xlint:-options,unchecked,deprecation</maven.compiler.lint>
         <!-- Break the build when warnings occur. 
              Consider to disable this in product builds which might need to live with deprecations -->
         <maven.compiler.warnings>-Werror</maven.compiler.warnings>
