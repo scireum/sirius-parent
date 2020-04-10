@@ -60,6 +60,7 @@ class SyncIdeaSettingsPlugin : Plugin<Project> {
 
             addCopyMarker("copyJavaMarker", CopyJavaMarkerTask::class.java)
             addCopyMarker("copyGroovyMarker", CopyGroovyMarkerTask::class.java)
+            addCopyMarker("copyKotlinMarker", CopyKotlinMarkerTask::class.java)
         }
     }
 
