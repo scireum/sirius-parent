@@ -12,6 +12,7 @@ import org.gradle.api.tasks.GroovySourceSet
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.testing.Test
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
 
@@ -20,6 +21,7 @@ class SyncIdeaSettingsPlugin : Plugin<Project> {
         project.plugins.apply {
             apply(JavaPlugin::class.java)
             apply(GroovyPlugin::class.java)
+            apply("kotlin")
         }
 
         project.repositories.apply {
@@ -60,6 +62,12 @@ class SyncIdeaSettingsPlugin : Plugin<Project> {
             testTask.include("*TestSuite.class")
             testTask.jvmArgs = listOf("-Ddebug=true")
             testTask.useJUnit()
+
+            withType(KotlinCompile::class.java).configureEach {
+                it.kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
 
             register("syncIdeaSettings", SyncIdeaSettingsTask::class.java)
 

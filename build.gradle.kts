@@ -13,6 +13,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib", "1.3.70"))
+    implementation(kotlin("gradle-plugin", "1.3.70"))
 }
 
 gradlePlugin {
