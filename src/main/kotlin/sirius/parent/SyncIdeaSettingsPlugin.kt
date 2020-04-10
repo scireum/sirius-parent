@@ -32,6 +32,12 @@ class SyncIdeaSettingsPlugin : Plugin<Project> {
         }
 
         project.dependencies.apply {
+            add("testImplementation", "org.junit.platform:junit-platform-runner:1.6.0")
+            add("testImplementation", "org.junit.jupiter:junit-jupiter:5.6.0")
+            add("testRuntime", "org.junit.jupiter:junit-jupiter-engine:5.6.0")
+            add("testRuntime", "org.junit.vintage:junit-vintage-engine:5.6.0")
+            add("testImplementation", "org.jetbrains.kotlin:kotlin-test-junit:1.3.70")
+
             add("testImplementation", "junit:junit:4.12")
             add("testImplementation", "com.googlecode.junit-toolbox:junit-toolbox:2.2")
             add("testImplementation", "org.spockframework:spock-core:1.1-groovy-2.4")
@@ -53,6 +59,7 @@ class SyncIdeaSettingsPlugin : Plugin<Project> {
             val testTask = getByPath("test") as Test
             testTask.include("*TestSuite.class")
             testTask.jvmArgs = listOf("-Ddebug=true")
+            testTask.useJUnit()
 
             register("syncIdeaSettings", SyncIdeaSettingsTask::class.java)
 
