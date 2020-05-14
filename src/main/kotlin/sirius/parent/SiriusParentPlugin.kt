@@ -16,7 +16,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
 
-class SyncIdeaSettingsPlugin : Plugin<Project> {
+class SiriusParentPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.plugins.apply {
             apply(JavaPlugin::class.java)
@@ -59,9 +59,10 @@ class SyncIdeaSettingsPlugin : Plugin<Project> {
 
         project.tasks.apply {
             val testTask = getByPath("test") as Test
-            testTask.include("*TestSuite.class")
+            testTask.include("**/*Spec.class")
+            testTask.include("**/*Test.class")
             testTask.jvmArgs = listOf("-Ddebug=true")
-            testTask.useJUnit()
+            testTask.useJUnitPlatform()
 
             withType(KotlinCompile::class.java).configureEach {
                 it.kotlinOptions {
