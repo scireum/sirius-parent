@@ -5,6 +5,7 @@ plugins {
     kotlin("jvm") version "1.3.70"
     id("java-gradle-plugin")
     id("maven-publish")
+    id("com.gradle.plugin-publish") version "0.11.0"
 }
 
 repositories {
@@ -18,9 +19,17 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("syncIdeaSettings") {
+        create("siriusParent") {
             id = "sirius-parent"
-            implementationClass = "sirius.parent.SyncIdeaSettingsPlugin"
+            displayName = "SIRIUS Parent"
+            description = "Provides basic setup and configuration for all SIRIUS libraries"
+            implementationClass = "sirius.parent.SiriusParentPlugin"
         }
     }
+}
+
+pluginBundle {
+    website = "https://scireum.de"
+    vcsUrl = "https://github.com/scireum/sirius-parent"
+    tags = listOf("scireum", "sirius", "setup", "parent")
 }
