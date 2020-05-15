@@ -20,7 +20,7 @@ dependencies {
 gradlePlugin {
     plugins {
         create("siriusParent") {
-            id = "sirius-parent"
+            id = "com.scireum.sirius-parent"
             displayName = "SIRIUS Parent"
             description = "Provides basic setup and configuration for all SIRIUS libraries"
             implementationClass = "sirius.parent.SiriusParentPlugin"
