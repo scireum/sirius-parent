@@ -15,9 +15,14 @@ import org.gradle.api.tasks.testing.Test
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
+open class SiriusParentPluginExtension {
+    var ideaSettingsUri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources"
+}
 
 class SiriusParentPlugin : Plugin<Project> {
     override fun apply(project: Project) {
+        val extension = project.extensions.create("siriusParent", SiriusParentPluginExtension::class.java)
+
         project.plugins.apply {
             apply(JavaPlugin::class.java)
             apply(GroovyPlugin::class.java)
@@ -77,6 +82,12 @@ class SiriusParentPlugin : Plugin<Project> {
             addCopyMarker("copyJavaMarker", CopyJavaMarkerTask::class.java)
             addCopyMarker("copyGroovyMarker", CopyGroovyMarkerTask::class.java)
             addCopyMarker("copyKotlinMarker", CopyKotlinMarkerTask::class.java)
+        }
+
+        project.afterEvaluate {
+            it.tasks.withType(SyncIdeaSettingsTask::class.java).configureEach { task ->
+                task.ideaSettingsUri = extension.ideaSettingsUri
+            }
         }
     }
 

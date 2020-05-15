@@ -1,6 +1,7 @@
 package sirius.parent
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.io.FileOutputStream
@@ -9,7 +10,10 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-open class SyncIdeaSettingsTask() : DefaultTask() {
+open class SyncIdeaSettingsTask : DefaultTask() {
+
+    @get:Input
+    var ideaSettingsUri: String = ""
 
     init {
         group = "project setup"
@@ -25,65 +29,67 @@ open class SyncIdeaSettingsTask() : DefaultTask() {
             return
         }
 
+        logger.lifecycle("Downloading files from $ideaSettingsUri.")
+
         project.mkdir("$projectDir/.idea/codeStyles")
         project.mkdir("$projectDir/.idea/inspectionProfiles")
         project.mkdir("$projectDir/.idea/copyright")
         project.mkdir("$projectDir/.idea/scopes")
 
         downloadFile(
-                uri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources/.idea/codeStyleSettings.xml",
+                uri = "$ideaSettingsUri/.idea/codeStyleSettings.xml",
                 target = File("$projectDir/.idea/codeStyleSettings.xml")
         )
         downloadFile(
-                uri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources/.idea/encodings.xml",
+                uri = "$ideaSettingsUri/.idea/encodings.xml",
                 target = File("$projectDir/.idea/encodings.xml")
         )
         downloadFile(
-                uri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources/.idea/kotlinc.xml",
+                uri = "$ideaSettingsUri/.idea/kotlinc.xml",
                 target = File("$projectDir/.idea/kotlinc.xml")
         )
         downloadFile(
-                uri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources/.idea/misc.xml",
+                uri = "$ideaSettingsUri/.idea/misc.xml",
                 target = File("$projectDir/.idea/misc.xml")
         )
 
         // codeStyles settings
         downloadFile(
-                uri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources/.idea/codeStyles/Project.xml",
+                uri = "$ideaSettingsUri/.idea/codeStyles/Project.xml",
                 target = File("$projectDir/.idea/codeStyles/Project.xml")
         )
         downloadFile(
-                uri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources/.idea/codeStyles/codeStyleConfig.xml",
+                uri = "$ideaSettingsUri/.idea/codeStyles/codeStyleConfig.xml",
                 target = File("$projectDir/.idea/codeStyles/codeStyleConfig.xml")
         )
 
         // copyright settings
         downloadFile(
-                uri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources/.idea/copyright/profiles_settings.xml",
+                uri = "$ideaSettingsUri/.idea/copyright/profiles_settings.xml",
                 target = File("$projectDir/.idea/copyright/profiles_settings.xml")
         )
         downloadFile(
-                uri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources/.idea/copyright/scireum.xml",
+                uri = "$ideaSettingsUri/.idea/copyright/scireum.xml",
                 target = File("$projectDir/.idea/copyright/scireum.xml")
         )
 
         // copyright settings
         downloadFile(
-                uri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources/.idea/inspectionProfiles/Sirius.xml",
+                uri = "$ideaSettingsUri/.idea/inspectionProfiles/Sirius.xml",
                 target = File("$projectDir/.idea/inspectionProfiles/Sirius.xml")
         )
         downloadFile(
-                uri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources/.idea/inspectionProfiles/Sirius_Heavy.xml",
+                uri = "$ideaSettingsUri/.idea/inspectionProfiles/Sirius_Heavy.xml",
                 target = File("$projectDir/.idea/inspectionProfiles/Sirius_Heavy.xml")
         )
         downloadFile(
-                uri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources/.idea/inspectionProfiles/profiles_settings.xml",
+                uri = "$ideaSettingsUri/.idea/inspectionProfiles/profiles_settings.xml",
                 target = File("$projectDir/.idea/inspectionProfiles/profiles_settings.xml")
         )
 
         // scopes settings
         downloadFile(
-                uri = "https://raw.githubusercontent.com/scireum/sirius-parent/master/src/main/resources/.idea/scopes/sirius.xml",
+                uri = "$ideaSettingsUri/.idea/scopes/sirius.xml",
                 target = File("$projectDir/.idea/scopes/sirius.xml")
         )
     }
