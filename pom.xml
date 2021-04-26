@@ -482,10 +482,10 @@
 
         <!-- Include cglib and objenesis for advanced mocking... -->
         <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>3.3.0</version>
-            <scope>test</scope>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>1.10.20</version>
+            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.objenesis</groupId>
