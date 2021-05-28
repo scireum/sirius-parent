@@ -482,7 +482,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Include cglib and objenesis for advanced mocking... -->
+        <!-- Include bytebuddy and objenesis for advanced mocking... -->
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
