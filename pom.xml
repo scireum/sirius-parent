@@ -487,7 +487,6 @@
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
             <version>1.10.20</version>
-            <type>pom</type>
             <scope>test</scope>
         </dependency>
         <dependency>
