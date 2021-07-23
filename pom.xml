@@ -63,16 +63,6 @@
         <repository>
             <id>scireum-mvn</id>
             <url>https://mvn.scireum.com</url>
-        </repository>    
-        <repository>
-            <id>bintray-palantir</id>
-            <url>https://dl.bintray.com/palantir/releases</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
         </repository>
     </repositories>
     <distributionManagement>
