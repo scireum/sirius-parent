@@ -156,12 +156,11 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.22.2</version>
                         <configuration>
-                            <includes>
-                                <include>TestSuite.java</include>
-                            </includes>
+                            <groups>${test.included.groups}</groups>
+                            <excludedGroups>${test.excluded.groups}</excludedGroups>
                         </configuration>
-                    </plugin>               
-                    
+                    </plugin>
+
                     <plugin>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <version>1.7</version>
@@ -446,17 +445,26 @@
             </extension>
         </extensions>
     </build>
-    <dependencies>
 
-        <!-- Include JUnit for testing -->
+    <dependencies>
+        <!-- JUnit5, versions provided using BOM -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <!-- Include JUNIT-Toolbox for testing -->
+        <!-- For legacy junit4 and scenario support. Include JUNIT-Toolbox for testing -->
         <dependency>
             <groupId>com.googlecode.junit-toolbox</groupId>
             <artifactId>junit-toolbox</artifactId>
@@ -472,7 +480,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Include bytebuddy and objenesis for advanced mocking... -->
+        <!-- Include bytebuddy and objenesis for advanced mocking at spockframework -->
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
@@ -486,5 +494,17 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.8.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
