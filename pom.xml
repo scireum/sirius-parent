@@ -68,7 +68,7 @@
     <distributionManagement>
         <repository>
             <id>scireum-mvn</id>
-            <url>ftp://scireum-hq-prod-maven-1.scireum.com/htdocs</url>
+            <url>ftp://ftp.mvn.scireum.com/htdocs</url>
         </repository>
     </distributionManagement>
 
