@@ -39,17 +39,20 @@ class SiriusParentPlugin : Plugin<Project> {
         }
 
         project.dependencies.apply {
-            add("testImplementation", "org.junit.platform:junit-platform-runner:1.6.0")
-            add("testImplementation", "org.junit.jupiter:junit-jupiter:5.6.0")
-            add("testRuntime", "org.junit.jupiter:junit-jupiter-engine:5.6.0")
-            add("testRuntime", "org.junit.vintage:junit-vintage-engine:5.6.0")
+            add("testImplementation", "org.junit.platform:junit-platform-suite:1.8.2")
+            add("testImplementation", "org.junit.jupiter:junit-jupiter:5.8.2")
+            add("testRuntime", "org.junit.jupiter:junit-jupiter-engine:5.8.2")
+            add("testRuntime", "org.junit.vintage:junit-vintage-engine:5.8.2")
             add("testImplementation", "org.jetbrains.kotlin:kotlin-test-junit:1.3.70")
 
             add("testImplementation", "junit:junit:4.12")
-            add("testImplementation", "com.googlecode.junit-toolbox:junit-toolbox:2.2")
-            add("testImplementation", "org.spockframework:spock-core:1.1-groovy-2.4")
-            add("testImplementation", "cglib:cglib:3.2.5")
-            add("testImplementation", "org.objenesis:objenesis:2.5.1")
+            // For legacy junit4 and scenario support. Include JUNIT-Toolbox for testing.
+            add("testImplementation", "com.googlecode.junit-toolbox:junit-toolbox:2.4")
+            // Include Spock for testing.
+            add("testImplementation", "org.spockframework:spock-core:1.3-groovy-2.4")
+            // Include bytebuddy and objenesis for advanced mocking at spockframework.
+            add("testImplementation", "net.bytebuddy:byte-buddy:1.10.20")
+            add("testImplementation", "org.objenesis:objenesis:3.1")
         }
 
         val javaConvention = project.convention.getPlugin(JavaPluginConvention::class.java)
