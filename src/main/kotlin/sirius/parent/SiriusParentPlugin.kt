@@ -51,8 +51,8 @@ class SiriusParentPlugin : Plugin<Project> {
             // Include Spock for testing.
             add("testImplementation", "org.spockframework:spock-core:1.3-groovy-2.4")
             // Include bytebuddy and objenesis for advanced mocking at spockframework.
-            add("testImplementation", "net.bytebuddy:byte-buddy:1.10.20")
-            add("testImplementation", "org.objenesis:objenesis:3.1")
+            add("testImplementation", "net.bytebuddy:byte-buddy:1.12.4")
+            add("testImplementation", "org.objenesis:objenesis:3.2")
         }
 
         val javaConvention = project.convention.getPlugin(JavaPluginConvention::class.java)
