@@ -41,9 +41,9 @@ class SiriusParentPlugin : Plugin<Project> {
         project.dependencies.apply {
             add("testImplementation", "org.junit.platform:junit-platform-suite:1.8.2")
             add("testImplementation", "org.junit.jupiter:junit-jupiter:5.8.2")
-            add("testRuntime", "org.junit.jupiter:junit-jupiter-engine:5.8.2")
-            add("testRuntime", "org.junit.vintage:junit-vintage-engine:5.8.2")
-            add("testImplementation", "org.jetbrains.kotlin:kotlin-test-junit:1.3.70")
+            add("testImplementation", "org.junit.jupiter:junit-jupiter-engine:5.8.2")
+            add("testImplementation", "org.junit.vintage:junit-vintage-engine:5.8.2")
+            add("testImplementation", "org.jetbrains.kotlin:kotlin-test-junit:1.6.10")
 
             add("testImplementation", "junit:junit:4.12")
             // For legacy junit4 and scenario support. Include JUNIT-Toolbox for testing.
