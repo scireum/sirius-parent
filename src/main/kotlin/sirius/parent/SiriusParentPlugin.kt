@@ -31,7 +31,6 @@ class SiriusParentPlugin : Plugin<Project> {
 
         project.repositories.apply {
             add(project.repositories.mavenLocal())
-            add(project.repositories.jcenter())
             add(project.repositories.maven {
                 it.url = URI("https://mvn.scireum.com")
             })
