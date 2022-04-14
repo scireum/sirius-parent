@@ -48,7 +48,7 @@
 
         <!-- Contains a copy of the effective version of the parent pom as it is referenced
              to load certain resources -->
-        <!-- Do not use ${project.version} here, as it is overwritten by the child pom! -->     
+        <!-- Do not use ${project.version} here, as it is overwritten by the child pom! -->
         <sirius.parent.version>DEVELOPMENT-SNAPSHOT</sirius.parent.version>
 
         <!-- Settings to control the scm owner -->
@@ -261,7 +261,7 @@
                             <skip>false</skip>
                         </configuration>
                     </plugin>
-                </plugins>               
+                </plugins>
             </build>
         </profile>
 
@@ -436,7 +436,7 @@
                 </configuration>
             </plugin>
         </plugins>
-         <extensions>
+        <extensions>
             <!-- Enabling the use of FTP -->
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
@@ -461,6 +461,11 @@
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
             <scope>test</scope>
         </dependency>
 
