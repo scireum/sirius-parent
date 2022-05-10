@@ -77,7 +77,7 @@ class SiriusParentPlugin : Plugin<Project> {
 
             withType(KotlinCompile::class.java).configureEach {
                 it.kotlinOptions {
-                    jvmTarget = "17"
+                    jvmTarget = "18"
                 }
             }
 
