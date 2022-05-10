@@ -44,8 +44,8 @@ class SiriusParentPlugin : Plugin<Project> {
             add("testImplementation", "org.junit.jupiter:junit-jupiter-params:5.8.2")
             add("testImplementation", "org.junit.vintage:junit-vintage-engine:5.8.2")
             
-            add("testImplementation", "org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
-            add("testImplementation", "org.jetbrains.kotlin:kotlin-test-junit:1.6.10")
+            add("testImplementation", "org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+            add("testImplementation", "org.jetbrains.kotlin:kotlin-test-junit:1.6.21")
             add("testImplementation", "io.mockk:mockk:1.12.3")
 
             add("testImplementation", "junit:junit:4.12")
