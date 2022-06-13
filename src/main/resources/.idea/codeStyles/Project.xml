@@ -1,6 +1,10 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
     <option name="WRAP_COMMENTS" value="true" />
+    <HTMLCodeStyleSettings>
+      <option name="HTML_KEEP_WHITESPACES_INSIDE" value="span,pre,textarea,k:code" />
+      <option name="HTML_INLINE_ELEMENTS" value="a,abbr,acronym,b,basefont,bdo,big,br,cite,cite,code,dfn,em,font,i,img,input,kbd,label,q,s,samp,select,small,span,strike,strong,sub,sup,textarea,tt,u,var,k:inlineCode" />
+    </HTMLCodeStyleSettings>
     <JavaCodeStyleSettings>
       <option name="ANNOTATION_PARAMETER_WRAP" value="5" />
       <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="500" />
