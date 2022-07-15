@@ -3,7 +3,7 @@
     <option name="WRAP_COMMENTS" value="true" />
     <HTMLCodeStyleSettings>
       <option name="HTML_KEEP_WHITESPACES_INSIDE" value="span,pre,textarea,k:code,k:mermaid" />
-      <option name="HTML_INLINE_ELEMENTS" value="a,abbr,acronym,b,basefont,bdo,big,br,cite,cite,code,dfn,em,font,i,img,input,kbd,label,q,s,samp,select,small,span,strike,strong,sub,sup,textarea,tt,u,var,k:inlineCode,k:lookupTableLink,k:ref" />
+      <option name="HTML_INLINE_ELEMENTS" value="a,abbr,acronym,b,basefont,bdo,big,br,cite,cite,code,dfn,em,font,i,img,input,kbd,label,q,s,samp,select,small,span,strike,strong,sub,sup,textarea,tt,u,var,k:inlineCode,k:lookupTableLink,k:ref,k:link" />
     </HTMLCodeStyleSettings>
     <JavaCodeStyleSettings>
       <option name="ANNOTATION_PARAMETER_WRAP" value="5" />
