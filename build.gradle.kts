@@ -2,7 +2,7 @@ group = "com.scireum"
 version = "1.0-RC"
 
 plugins {
-    kotlin("jvm") version "1.6.21"
+    kotlin("jvm") version "1.7.10"
     id("java-gradle-plugin")
     id("maven-publish")
     id("com.gradle.plugin-publish") version "0.11.0"
@@ -13,8 +13,8 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib", "1.6.21"))
-    implementation(kotlin("gradle-plugin", "1.6.21"))
+    implementation(kotlin("stdlib", "1.7.10"))
+    implementation(kotlin("gradle-plugin", "1.7.10"))
 }
 
 gradlePlugin {
