@@ -5,7 +5,7 @@ To learn more about what SIRIUS is please refer to documentation of the [kernel 
 
 # SIRIUS Parent
 
-Contains a Gradle plugin used by all scireum and sirius projects.
+Contains a [Gradle Plugin](https://plugins.gradle.org/plugin/com.scireum.sirius-parent) used by all scireum and sirius projects.
 This will enforce a sane build process and code style settings in addition to a common test setup (jUnit 5 & Kotlin).
 
 ## Using the plugin in a project
@@ -39,3 +39,5 @@ To publish a new version of the plugin follow these steps:
 ```shell
 ./gradlew publishPlugins -Pgradle.publish.key=<key> -Pgradle.publish.secret=<secret>
 ```
+
+4. Check the [Plugin Portal](https://plugins.gradle.org/plugin/com.scireum.sirius-parent) whether new version is available.
