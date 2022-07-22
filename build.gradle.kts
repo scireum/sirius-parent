@@ -1,5 +1,5 @@
 group = "com.scireum"
-version = "1.0-SNAPSHOT"
+version = "1.0-RC"
 
 plugins {
     kotlin("jvm") version "1.6.21"
