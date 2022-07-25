@@ -65,7 +65,8 @@ class SiriusParentPlugin : Plugin<Project> {
                 groovy.srcDir("src/test/groovy")
                 groovy.srcDir("src/test/java")
             }
-            it.java.srcDir("src/test/java")
+            // no source directory for compileTestJava as the groovy task already compiles both, groovy and java files.
+            it.java.setSrcDirs(emptySet<String>());
         }
 
         project.tasks.apply {
