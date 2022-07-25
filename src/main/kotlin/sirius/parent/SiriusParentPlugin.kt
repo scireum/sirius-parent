@@ -4,12 +4,11 @@ package sirius.parent
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.internal.plugins.DslObject
 import org.gradle.api.plugins.GroovyPlugin
 import org.gradle.api.plugins.JavaPlugin
-import org.gradle.api.plugins.JavaPluginConvention
-import org.gradle.api.tasks.GroovySourceSet
+import org.gradle.api.tasks.GroovySourceDirectorySet
 import org.gradle.api.tasks.SourceSet
+import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.testing.Test
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -43,7 +42,7 @@ class SiriusParentPlugin : Plugin<Project> {
             add("testImplementation", "org.junit.jupiter:junit-jupiter-engine:5.8.2")
             add("testImplementation", "org.junit.jupiter:junit-jupiter-params:5.8.2")
             add("testImplementation", "org.junit.vintage:junit-vintage-engine:5.8.2")
-            
+
             add("testImplementation", "org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
             add("testImplementation", "org.jetbrains.kotlin:kotlin-test-junit:1.7.10")
             add("testImplementation", "io.mockk:mockk:1.12.3")
@@ -58,21 +57,15 @@ class SiriusParentPlugin : Plugin<Project> {
             add("testImplementation", "org.objenesis:objenesis:3.2")
         }
 
-        val javaConvention = project.convention.getPlugin(JavaPluginConvention::class.java)
-
-        javaConvention.sourceSets.getByName(SourceSet.TEST_SOURCE_SET_NAME) {
-            DslObject(it).convention.getPlugin(GroovySourceSet::class.java).run {
-                groovy.srcDir("src/test/groovy")
-                groovy.srcDir("src/test/java")
-            }
-            // no source directory for compileTestJava as the groovy task already compiles both, groovy and java files.
-            it.java.setSrcDirs(emptySet<String>());
-        }
+        // set source directories for groovy compilation
+        val testSourceSet = project.extensions.getByType(SourceSetContainer::class.java).getByName(SourceSet.TEST_SOURCE_SET_NAME)
+        testSourceSet.extensions.getByType(GroovySourceDirectorySet::class.java).setSrcDirs(listOf("src/test/groovy", "src/test/java"))
+        // no source directory for compileTestJava as the groovy task already compiles both, groovy and java files.
+        testSourceSet.java.setSrcDirs(emptySet<String>())
 
         project.tasks.apply {
             val testTask = getByPath("test") as Test
-            testTask.include("**/*Spec.class")
-            testTask.include("**/*Test.class")
+            testTask.include("**/*Spec.class", "**/*Test.class")
             testTask.jvmArgs = listOf("-Ddebug=true")
             testTask.useJUnitPlatform()
 
