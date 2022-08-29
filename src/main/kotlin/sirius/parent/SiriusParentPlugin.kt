@@ -4,6 +4,7 @@ package sirius.parent
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.plugins.GroovyPlugin
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.GroovySourceDirectorySet
@@ -82,6 +83,8 @@ class SiriusParentPlugin : Plugin<Project> {
             addCopyMarker("copyJavaMarker", CopyJavaMarkerTask::class.java)
             addCopyMarker("copyGroovyMarker", CopyGroovyMarkerTask::class.java)
             addCopyMarker("copyKotlinMarker", CopyKotlinMarkerTask::class.java)
+
+            getByName("jar").setProperty("duplicatesStrategy", DuplicatesStrategy.EXCLUDE)
         }
 
         project.afterEvaluate {
