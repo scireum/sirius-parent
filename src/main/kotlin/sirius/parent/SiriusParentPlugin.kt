@@ -12,6 +12,7 @@ import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
@@ -111,6 +112,9 @@ class SiriusParentPlugin : Plugin<Project> {
             val testTaskFull = getByPath("test") as Test
             testTaskFull.setIncludes(listOf("**/*TestSuite.class"))
             testTaskFull.jvmArgs = listOf("-Ddebug=true")
+            testTaskFull.testLogging { logging ->
+                logging.events = setOf(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
+            }
             testTaskFull.useJUnitPlatform()
         }
     }
@@ -121,6 +125,9 @@ class SiriusParentPlugin : Plugin<Project> {
             val testTaskWithoutNightly = getByName("testWithoutNightly") as Test
             testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class"))
             testTaskWithoutNightly.jvmArgs = listOf("-Ddebug=true")
+            testTaskWithoutNightly.testLogging { logging ->
+                logging.events = setOf(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
+            }
             testTaskWithoutNightly.systemProperty("test.excluded.groups", "nightly")
             testTaskWithoutNightly.useJUnitPlatform { platformOptions ->
                 platformOptions.excludeTags = setOf("nightly")
