@@ -23,12 +23,6 @@ class SiriusParentPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         val extension = project.extensions.create("siriusParent", SiriusParentPluginExtension::class.java)
 
-        project.plugins.apply {
-            apply(JavaPlugin::class.java)
-            apply(GroovyPlugin::class.java)
-            apply("kotlin")
-        }
-
         project.repositories.apply {
             add(project.repositories.mavenLocal())
             add(project.repositories.maven {
@@ -37,27 +31,10 @@ class SiriusParentPlugin : Plugin<Project> {
             add(project.repositories.mavenCentral())
         }
 
-        project.dependencies.apply {
-            add("testImplementation", "org.junit.platform:junit-platform-runner:1.8.2")
-            add("testImplementation", "org.junit.platform:junit-platform-suite:1.8.2")
-            add("testImplementation", "org.junit.jupiter:junit-jupiter:5.8.2")
-            add("testImplementation", "org.junit.jupiter:junit-jupiter-engine:5.8.2")
-            add("testImplementation", "org.junit.jupiter:junit-jupiter-params:5.8.2")
+        applyGradlePlugins(project)
 
-            add("testImplementation", "org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
-            add("testImplementation", "org.jetbrains.kotlin:kotlin-test-junit:1.7.10")
-            add("testImplementation", "io.mockk:mockk:1.12.3")
-
-            add("testImplementation", "junit:junit:4.12")
-            add("testRuntimeOnly", "org.junit.vintage:junit-vintage-engine:5.8.2")
-            // For legacy junit4 and scenario support. Include JUNIT-Toolbox for testing.
-            add("testImplementation", "com.googlecode.junit-toolbox:junit-toolbox:2.4")
-            // Include Spock for testing.
-            add("testImplementation", "org.spockframework:spock-core:1.3-groovy-2.4")
-            // Include bytebuddy and objenesis for advanced mocking at spockframework.
-            add("testImplementation", "net.bytebuddy:byte-buddy:1.12.4")
-            add("testImplementation", "org.objenesis:objenesis:3.2")
-        }
+        setupTestDependencies(project)
+        setupTestDependenciesForJUnit4(project)
 
         // set source directories for groovy compilation
         val testSourceSet = project.extensions.getByType(SourceSetContainer::class.java).getByName(SourceSet.TEST_SOURCE_SET_NAME)
@@ -65,21 +42,10 @@ class SiriusParentPlugin : Plugin<Project> {
         // no source directory for compileTestJava as the groovy task already compiles both, groovy and java files.
         testSourceSet.java.setSrcDirs(emptySet<String>())
 
+        initializeTestTask(project)
+        initializeTestTaskWithoutNightly(project)
+
         project.tasks.apply {
-            val testTaskFull = getByPath("test") as Test
-            testTaskFull.setIncludes(listOf("**/*TestSuite.class"))
-            testTaskFull.jvmArgs = listOf("-Ddebug=true")
-            testTaskFull.useJUnitPlatform()
-
-            register("testWithoutNightly", Test::class.java)
-            val testTaskWithoutNightly = getByName("testWithoutNightly") as Test
-            testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class"))
-            testTaskWithoutNightly.jvmArgs = listOf("-Ddebug=true")
-            testTaskWithoutNightly.systemProperty("test.excluded.groups", "nightly")
-            testTaskWithoutNightly.useJUnitPlatform { platformOptions ->
-                platformOptions.excludeTags = setOf("nightly")
-            }
-
             withType(KotlinCompile::class.java).configureEach {
                 it.kotlinOptions {
                     jvmTarget = "18"
@@ -100,6 +66,64 @@ class SiriusParentPlugin : Plugin<Project> {
         project.afterEvaluate {
             it.tasks.withType(SyncIdeaSettingsTask::class.java).configureEach { task ->
                 task.ideaSettingsUri = extension.ideaSettingsUri
+            }
+        }
+    }
+
+    private fun applyGradlePlugins(project: Project) {
+        project.plugins.apply {
+            apply(JavaPlugin::class.java)
+            apply(GroovyPlugin::class.java)
+            apply("kotlin")
+        }
+    }
+
+    private fun setupTestDependencies(project: Project) {
+        project.dependencies.apply {
+            add("testImplementation", "org.junit.platform:junit-platform-runner:1.8.2")
+            add("testImplementation", "org.junit.platform:junit-platform-suite:1.8.2")
+            add("testImplementation", "org.junit.jupiter:junit-jupiter:5.8.2")
+            add("testImplementation", "org.junit.jupiter:junit-jupiter-engine:5.8.2")
+            add("testImplementation", "org.junit.jupiter:junit-jupiter-params:5.8.2")
+
+            add("testImplementation", "org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
+            add("testImplementation", "org.jetbrains.kotlin:kotlin-test-junit:1.7.10")
+            add("testImplementation", "io.mockk:mockk:1.12.3")
+        }
+    }
+
+    private fun setupTestDependenciesForJUnit4(project: Project) {
+        project.dependencies.apply {
+            add("testImplementation", "junit:junit:4.12")
+            add("testRuntimeOnly", "org.junit.vintage:junit-vintage-engine:5.8.2")
+            // For legacy junit4 and scenario support. Include JUNIT-Toolbox for testing.
+            add("testImplementation", "com.googlecode.junit-toolbox:junit-toolbox:2.4")
+            // Include Spock for testing.
+            add("testImplementation", "org.spockframework:spock-core:1.3-groovy-2.4")
+            // Include bytebuddy and objenesis for advanced mocking at spockframework.
+            add("testImplementation", "net.bytebuddy:byte-buddy:1.12.4")
+            add("testImplementation", "org.objenesis:objenesis:3.2")
+        }
+    }
+
+    private fun initializeTestTask(project: Project) {
+        project.tasks.apply {
+            val testTaskFull = getByPath("test") as Test
+            testTaskFull.setIncludes(listOf("**/*TestSuite.class"))
+            testTaskFull.jvmArgs = listOf("-Ddebug=true")
+            testTaskFull.useJUnitPlatform()
+        }
+    }
+
+    private fun initializeTestTaskWithoutNightly(project: Project) {
+        project.tasks.apply {
+            register("testWithoutNightly", Test::class.java)
+            val testTaskWithoutNightly = getByName("testWithoutNightly") as Test
+            testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class"))
+            testTaskWithoutNightly.jvmArgs = listOf("-Ddebug=true")
+            testTaskWithoutNightly.systemProperty("test.excluded.groups", "nightly")
+            testTaskWithoutNightly.useJUnitPlatform { platformOptions ->
+                platformOptions.excludeTags = setOf("nightly")
             }
         }
     }
