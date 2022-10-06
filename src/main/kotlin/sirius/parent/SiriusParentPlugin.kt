@@ -38,17 +38,18 @@ class SiriusParentPlugin : Plugin<Project> {
         }
 
         project.dependencies.apply {
+            add("testImplementation", "org.junit.platform:junit-platform-runner:1.8.2")
             add("testImplementation", "org.junit.platform:junit-platform-suite:1.8.2")
             add("testImplementation", "org.junit.jupiter:junit-jupiter:5.8.2")
             add("testImplementation", "org.junit.jupiter:junit-jupiter-engine:5.8.2")
             add("testImplementation", "org.junit.jupiter:junit-jupiter-params:5.8.2")
-            add("testImplementation", "org.junit.vintage:junit-vintage-engine:5.8.2")
 
             add("testImplementation", "org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
             add("testImplementation", "org.jetbrains.kotlin:kotlin-test-junit:1.7.10")
             add("testImplementation", "io.mockk:mockk:1.12.3")
 
             add("testImplementation", "junit:junit:4.12")
+            add("testRuntimeOnly", "org.junit.vintage:junit-vintage-engine:5.8.2")
             // For legacy junit4 and scenario support. Include JUNIT-Toolbox for testing.
             add("testImplementation", "com.googlecode.junit-toolbox:junit-toolbox:2.4")
             // Include Spock for testing.
