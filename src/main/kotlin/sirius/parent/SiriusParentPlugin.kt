@@ -66,10 +66,19 @@ class SiriusParentPlugin : Plugin<Project> {
         testSourceSet.java.setSrcDirs(emptySet<String>())
 
         project.tasks.apply {
-            val testTask = getByPath("test") as Test
-            testTask.include("**/*Spec.class", "**/*Test.class")
-            testTask.jvmArgs = listOf("-Ddebug=true")
-            testTask.useJUnitPlatform()
+            val testTaskFull = getByPath("test") as Test
+            testTaskFull.setIncludes(listOf("**/*TestSuite.class"))
+            testTaskFull.jvmArgs = listOf("-Ddebug=true")
+            testTaskFull.useJUnitPlatform()
+
+            register("testWithoutNightly", Test::class.java)
+            val testTaskWithoutNightly = getByName("testWithoutNightly") as Test
+            testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class"))
+            testTaskWithoutNightly.jvmArgs = listOf("-Ddebug=true")
+            testTaskWithoutNightly.systemProperty("test.excluded.groups", "nightly")
+            testTaskWithoutNightly.useJUnitPlatform { platformOptions ->
+                platformOptions.excludeTags = setOf("nightly")
+            }
 
             withType(KotlinCompile::class.java).configureEach {
                 it.kotlinOptions {
