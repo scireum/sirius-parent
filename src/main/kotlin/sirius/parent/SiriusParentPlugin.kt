@@ -84,7 +84,7 @@ class SiriusParentPlugin : Plugin<Project> {
             add("testImplementation", "org.junit.platform:junit-platform-runner:1.8.2")
             add("testImplementation", "org.junit.platform:junit-platform-suite:1.8.2")
             add("testImplementation", "org.junit.jupiter:junit-jupiter:5.8.2")
-            add("testImplementation", "org.junit.jupiter:junit-jupiter-engine:5.8.2")
+            add("testRuntimeOnly", "org.junit.jupiter:junit-jupiter-engine:5.8.2")
             add("testImplementation", "org.junit.jupiter:junit-jupiter-params:5.8.2")
 
             add("testImplementation", "org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
