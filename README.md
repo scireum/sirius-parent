@@ -26,7 +26,7 @@ apply(plugin = "com.scireum.sirius-parent")
 
 ## Publishing to Gradle Plugin Portal
 
-Changes to the `.idea` resources folter are automatically picked up by all projects that use the plugin during every build.
+Changes to the `.idea` resources folder are automatically picked up by all projects that use the plugin during every build.
 Only changes to the plugin itself or its dependencies need to be published as a new version to the plugin portal.
 
 To publish a new version of the plugin follow these steps:
