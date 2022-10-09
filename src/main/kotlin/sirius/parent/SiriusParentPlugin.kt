@@ -123,6 +123,7 @@ class SiriusParentPlugin : Plugin<Project> {
         project.tasks.apply {
             register("testWithoutNightly", Test::class.java)
             val testTaskWithoutNightly = getByName("testWithoutNightly") as Test
+            testTaskWithoutNightly.group = "verification"
             testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class"))
             testTaskWithoutNightly.jvmArgs = listOf("-Ddebug=true")
             testTaskWithoutNightly.testLogging { logging ->
