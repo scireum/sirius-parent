@@ -57,9 +57,9 @@ class SiriusParentPlugin : Plugin<Project> {
 
             getByName("build").finalizedBy(project.tasks.getByName("syncIdeaSettings"))
 
-            addCopyMarker("copyJavaMarker", CopyJavaMarkerTask::class.java)
-            addCopyMarker("copyGroovyMarker", CopyGroovyMarkerTask::class.java)
-            addCopyMarker("copyKotlinMarker", CopyKotlinMarkerTask::class.java)
+            addCopyMarkerAction(project, "java")
+            addCopyMarkerAction(project, "groovy")
+            addCopyMarkerAction(project, "kotlin")
 
             getByName("jar").setProperty("duplicatesStrategy", DuplicatesStrategy.EXCLUDE)
         }
@@ -136,10 +136,8 @@ class SiriusParentPlugin : Plugin<Project> {
         }
     }
 
-    private fun TaskContainer.addCopyMarker(name: String, clazz: Class<out CopyMarkerTask>) {
-        create(name, clazz)
-
-        getByName("processResources").finalizedBy(getByName(name))
-        getByName("processTestResources").finalizedBy(getByName(name))
+    private fun TaskContainer.addCopyMarkerAction(project: Project, output: String) {
+        getByName("processResources").doLast(CopyMarkerAction(project, output))
+        getByName("processTestResources").doLast(CopyMarkerAction(project, output))
     }
 }

@@ -1,22 +1,18 @@
 package sirius.parent
 
-import org.gradle.api.tasks.Copy
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.Action
+import org.gradle.api.Project
+import org.gradle.api.Task
 
 
-open class CopyMarkerAction(private val output: String) : Copy() {
+open class CopyMarkerAction(private val project: Project, private val output: String) : Action<Task> {
 
-    init {
-        from("${project.buildDir}/resources/") {
-            include("**/*.marker")
+    override fun execute(t: Task) {
+        project.copy { copySpec ->
+            copySpec.from("${project.buildDir}/resources/")
+            copySpec.into("${project.buildDir}/classes/$output")
+            copySpec.include("**/*.marker")
         }
-
-        into("${project.buildDir}/classes/$output")
-    }
-
-    @TaskAction
-    fun copyMarker() {
-        super.copy()
     }
 
 }
