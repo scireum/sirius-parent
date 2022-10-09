@@ -4,7 +4,7 @@ import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.TaskAction
 
 
-open class CopyMarkerTask(private val output: String) : Copy() {
+open class CopyMarkerAction(private val output: String) : Copy() {
 
     init {
         from("${project.buildDir}/resources/") {
