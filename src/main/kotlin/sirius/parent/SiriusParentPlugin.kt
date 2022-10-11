@@ -13,6 +13,7 @@ import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
@@ -62,6 +63,13 @@ class SiriusParentPlugin : Plugin<Project> {
             addCopyMarkerAction(project, "kotlin")
 
             getByName("jar").setProperty("duplicatesStrategy", DuplicatesStrategy.EXCLUDE)
+
+            val jacocoReport = getByName("jacocoTestReport") as JacocoReport
+            getByName("test").finalizedBy(jacocoReport)
+            jacocoReport.dependsOn(getByName("test"))
+            jacocoReport.reports { reports ->
+                reports.xml.required.set(true)
+            }
         }
 
         project.afterEvaluate {
@@ -76,6 +84,7 @@ class SiriusParentPlugin : Plugin<Project> {
             apply(JavaPlugin::class.java)
             apply(GroovyPlugin::class.java)
             apply("kotlin")
+            apply("jacoco")
         }
     }
 
