@@ -13,6 +13,7 @@ import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
@@ -43,9 +44,6 @@ class SiriusParentPlugin : Plugin<Project> {
         // no source directory for compileTestJava as the groovy task already compiles both, groovy and java files.
         testSourceSet.java.setSrcDirs(emptySet<String>())
 
-        initializeTestTask(project)
-        initializeTestTaskWithoutNightly(project)
-
         project.tasks.apply {
             withType(KotlinCompile::class.java).configureEach {
                 it.kotlinOptions {
@@ -57,11 +55,21 @@ class SiriusParentPlugin : Plugin<Project> {
 
             getByName("build").finalizedBy(project.tasks.getByName("syncIdeaSettings"))
 
-            addCopyMarker("copyJavaMarker", CopyJavaMarkerTask::class.java)
-            addCopyMarker("copyGroovyMarker", CopyGroovyMarkerTask::class.java)
-            addCopyMarker("copyKotlinMarker", CopyKotlinMarkerTask::class.java)
+            initializeTestTask()
+            initializeTestTaskWithoutNightly()
+
+            addCopyMarkerAction(project, "java")
+            addCopyMarkerAction(project, "groovy")
+            addCopyMarkerAction(project, "kotlin")
 
             getByName("jar").setProperty("duplicatesStrategy", DuplicatesStrategy.EXCLUDE)
+
+            val jacocoReport = getByName("jacocoTestReport") as JacocoReport
+            getByName("test").finalizedBy(jacocoReport)
+            jacocoReport.dependsOn(getByName("test"))
+            jacocoReport.reports { reports ->
+                reports.xml.required.set(true)
+            }
         }
 
         project.afterEvaluate {
@@ -76,6 +84,7 @@ class SiriusParentPlugin : Plugin<Project> {
             apply(JavaPlugin::class.java)
             apply(GroovyPlugin::class.java)
             apply("kotlin")
+            apply("jacoco")
         }
     }
 
@@ -107,38 +116,33 @@ class SiriusParentPlugin : Plugin<Project> {
         }
     }
 
-    private fun initializeTestTask(project: Project) {
-        project.tasks.apply {
-            val testTaskFull = getByPath("test") as Test
-            testTaskFull.setIncludes(listOf("**/*TestSuite.class"))
-            testTaskFull.jvmArgs = listOf("-Ddebug=true")
-            testTaskFull.testLogging { logging ->
-                logging.events = setOf(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
-            }
-            testTaskFull.useJUnitPlatform()
+    private fun TaskContainer.initializeTestTask() {
+        val testTaskFull = getByPath("test") as Test
+        testTaskFull.setIncludes(listOf("**/*TestSuite.class"))
+        testTaskFull.jvmArgs = listOf("-Ddebug=true")
+        testTaskFull.testLogging { logging ->
+            logging.events = setOf(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
+        }
+        testTaskFull.useJUnitPlatform()
+    }
+
+    private fun TaskContainer.initializeTestTaskWithoutNightly() {
+        register("testWithoutNightly", Test::class.java)
+        val testTaskWithoutNightly = getByName("testWithoutNightly") as Test
+        testTaskWithoutNightly.group = "verification"
+        testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class"))
+        testTaskWithoutNightly.jvmArgs = listOf("-Ddebug=true")
+        testTaskWithoutNightly.testLogging { logging ->
+            logging.events = setOf(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
+        }
+        testTaskWithoutNightly.systemProperty("test.excluded.groups", "nightly")
+        testTaskWithoutNightly.useJUnitPlatform { platformOptions ->
+            platformOptions.excludeTags = setOf("nightly")
         }
     }
 
-    private fun initializeTestTaskWithoutNightly(project: Project) {
-        project.tasks.apply {
-            register("testWithoutNightly", Test::class.java)
-            val testTaskWithoutNightly = getByName("testWithoutNightly") as Test
-            testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class"))
-            testTaskWithoutNightly.jvmArgs = listOf("-Ddebug=true")
-            testTaskWithoutNightly.testLogging { logging ->
-                logging.events = setOf(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
-            }
-            testTaskWithoutNightly.systemProperty("test.excluded.groups", "nightly")
-            testTaskWithoutNightly.useJUnitPlatform { platformOptions ->
-                platformOptions.excludeTags = setOf("nightly")
-            }
-        }
-    }
-
-    private fun TaskContainer.addCopyMarker(name: String, clazz: Class<out CopyMarkerTask>) {
-        create(name, clazz)
-
-        getByName("processResources").finalizedBy(getByName(name))
-        getByName("processTestResources").finalizedBy(getByName(name))
+    private fun TaskContainer.addCopyMarkerAction(project: Project, output: String) {
+        getByName("processResources").doLast(CopyMarkerAction(project, output))
+        getByName("processTestResources").doLast(CopyMarkerAction(project, output))
     }
 }
