@@ -100,8 +100,8 @@ class SiriusParentPlugin : Plugin<Project> {
                 it.maven { repository ->
                     repository.url = URI(project.providers.gradleProperty("mvnRepository").getOrElse("not_set"))
                     repository.credentials { credentials ->
-                        credentials.username = project.providers.gradleProperty("mvnUsername").getOrElse("not_set")
-                        credentials.password = project.providers.gradleProperty("mvnPassword").getOrElse("not_set")
+                        credentials.username = System.getenv("MAVEN_USERNAME")
+                        credentials.password = System.getenv("MAVEN_PASSWORD")
                     }
                 }
             }
