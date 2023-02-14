@@ -7,12 +7,17 @@ import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.plugins.GroovyPlugin
 import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.api.tasks.GroovySourceDirectorySet
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.gradle.jvm.tasks.Jar
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
@@ -55,6 +60,7 @@ class SiriusParentPlugin : Plugin<Project> {
 
             getByName("build").finalizedBy(project.tasks.getByName("syncIdeaSettings"))
 
+            initializeTestJarTask()
             initializeTestTask()
             initializeTestTaskWithoutNightly()
 
@@ -77,6 +83,29 @@ class SiriusParentPlugin : Plugin<Project> {
                 task.ideaSettingsUri = extension.ideaSettingsUri
             }
         }
+
+        project.extensions.getByType(JavaPluginExtension::class.java).apply {
+            withSourcesJar()
+        }
+
+        project.extensions.getByType(PublishingExtension::class.java).apply {
+            publications {
+                it.create(project.name, MavenPublication::class.java) { publication ->
+                    publication.from(project.components.getByName("java"))
+                    publication.artifact(project.tasks.getByName("testJar"))
+                }
+            }
+
+            repositories {
+                it.maven { repository ->
+                    repository.url = URI(project.providers.gradleProperty("mvnRepository").getOrElse("not_set"))
+                    repository.credentials { credentials ->
+                        credentials.username = System.getenv("MAVEN_USERNAME")
+                        credentials.password = System.getenv("MAVEN_PASSWORD")
+                    }
+                }
+            }
+        }
     }
 
     private fun applyGradlePlugins(project: Project) {
@@ -85,6 +114,7 @@ class SiriusParentPlugin : Plugin<Project> {
             apply(GroovyPlugin::class.java)
             apply("kotlin")
             apply("jacoco")
+            apply(MavenPublishPlugin::class.java)
         }
     }
 
@@ -124,6 +154,13 @@ class SiriusParentPlugin : Plugin<Project> {
             logging.events = setOf(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
         }
         testTaskFull.useJUnitPlatform()
+    }
+
+    private fun TaskContainer.initializeTestJarTask() {
+        register("testJar", Jar::class.java)
+        val testJar = getByPath("testJar") as Jar
+        testJar.setProperty("classifier", "tests")
+        testJar.from(getByName("compileTestGroovy"))
     }
 
     private fun TaskContainer.initializeTestTaskWithoutNightly() {
