@@ -166,6 +166,7 @@ class SiriusParentPlugin : Plugin<Project> {
     private fun TaskContainer.initializeTestTaskWithoutNightly() {
         register("testWithoutNightly", Test::class.java)
         val testTaskWithoutNightly = getByName("testWithoutNightly") as Test
+        testTaskWithoutNightly.dependsOn(getByName("testClasses"))
         testTaskWithoutNightly.group = "verification"
         testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class"))
         testTaskWithoutNightly.jvmArgs = listOf("-Ddebug=true")
@@ -179,7 +180,6 @@ class SiriusParentPlugin : Plugin<Project> {
     }
 
     private fun TaskContainer.addCopyMarkerAction(project: Project, output: String) {
-        getByName("processResources").doLast(CopyMarkerAction(project, output))
-        getByName("processTestResources").doLast(CopyMarkerAction(project, output))
+        getByName("testClasses").doLast(CopyMarkerAction(project, output))
     }
 }
