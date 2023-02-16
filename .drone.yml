@@ -19,15 +19,25 @@ steps:
   - name: validate
     image: scireum/sirius-build
     commands:
-      - mvn clean validate -U
+      - ./gradlew clean assemble
     volumes: *scireum_volumes
 
   - name: deploy
     image: scireum/sirius-build
     commands:
-      - sed -i 's/DEVELOPMENT-SNAPSHOT/${DRONE_TAG}/g' pom.xml
-      - mvn clean deploy
+      - sed -i 's/DEVELOPMENT-SNAPSHOT/${DRONE_TAG}/g' gradle.properties
+      - ./gradlew publishPlugins -Pgradle.publish.key=${gradle_publish_key} -Pgradle.publish.secret=${gradle_publish_secret}
     volumes: *scireum_volumes
+    when:
+      event:
+        - tag
+
+  - name: notify-tag-build
+    image: plugins/slack
+    settings:
+      webhook: https://memoio.com/endpoint/hook/4b17b22e54124c53ab2e550cf3311461cba7c66a1e3756fa8d17e7dc17a48dbb
+      channel: scireum-dev
+      template: "A new version is available: **{{Repo.Name}}**: [{{Build.Tag}}](https://plugins.gradle.org/plugin/com.scireum.sirius-parent/{{Build.Tag}})"
     when:
       event:
         - tag

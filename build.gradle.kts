@@ -1,6 +1,3 @@
-group = "com.scireum"
-version = "1.0-RC7"
-
 plugins {
     kotlin("jvm") version "1.7.10"
     id("com.gradle.plugin-publish") version "1.0.0"
