@@ -12,6 +12,21 @@ dependencies {
     implementation(kotlin("gradle-plugin", "1.7.10"))
 }
 
+// Set up publishing details for the custom scireum maven repository
+publishing {
+    repositories {
+        maven {
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+            name = "scireum-mvn"
+            url = uri(providers.gradleProperty("mvnRepository").getOrElse("not_set"))
+        }
+    }
+}
+
+// Set up publishing details for the official Gradle plugin portal
 gradlePlugin {
     plugins {
         create("siriusParent") {

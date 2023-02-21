@@ -26,7 +26,17 @@ steps:
     image: scireum/sirius-build
     commands:
       - sed -i 's/DEVELOPMENT-SNAPSHOT/${DRONE_TAG}/g' gradle.properties
-      - ./gradlew publishPlugins -Pgradle.publish.key=${gradle_publish_key} -Pgradle.publish.secret=${gradle_publish_secret}
+      - ./gradlew clean publish
+      - ./gradlew publishPlugins -Pgradle.publish.key=$${GRADLE_PUBLISH_KEY} -Pgradle.publish.secret=$${GRADLE_PUBLISH_SECRET}
+    environment:
+      MAVEN_USERNAME:
+        from_secret: maven_public_username
+      MAVEN_PASSWORD:
+        from_secret: maven_public_password
+      GRADLE_PUBLISH_KEY:
+        from_secret: gradle_publish_key
+      GRADLE_PUBLISH_SECRET:
+        from_secret: gradle_publish_secret
     volumes: *scireum_volumes
     when:
       event:
