@@ -120,18 +120,18 @@ class SiriusParentPlugin : Plugin<Project> {
 
     private fun setupTestDependencies(project: Project) {
         project.dependencies.apply {
-            add("testImplementation", platform("org.junit:junit-bom:5.8.2"))
+            add("testImplementation", platform("org.junit:junit-bom:5.9.3"))
             add("testImplementation", "org.junit.platform:junit-platform-runner")
             add("testImplementation", "org.junit.platform:junit-platform-suite")
             add("testImplementation", "org.junit.jupiter:junit-jupiter")
             add("testImplementation", "org.junit.jupiter:junit-jupiter-params")
             add("testRuntimeOnly", "org.junit.jupiter:junit-jupiter-engine")
 
-            add("testImplementation", platform("org.jetbrains.kotlin:kotlin-bom:1.7.10"))
+            add("testImplementation", platform("org.jetbrains.kotlin:kotlin-bom:1.8.21"))
             add("testImplementation", "org.jetbrains.kotlin:kotlin-stdlib")
             add("testImplementation", "org.jetbrains.kotlin:kotlin-test-junit")
 
-            add("testImplementation", "io.mockk:mockk:1.12.3")
+            add("testImplementation", "io.mockk:mockk:1.13.5")
         }
     }
 
