@@ -18,8 +18,9 @@ import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.jvm.tasks.Jar
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JvmVendorSpec
 import org.gradle.testing.jacoco.tasks.JacocoReport
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
 open class SiriusParentPluginExtension {
@@ -44,18 +45,14 @@ class SiriusParentPlugin : Plugin<Project> {
         setupTestDependenciesForJUnit4(project)
 
         // set source directories for groovy compilation
-        val testSourceSet = project.extensions.getByType(SourceSetContainer::class.java).getByName(SourceSet.TEST_SOURCE_SET_NAME)
-        testSourceSet.extensions.getByType(GroovySourceDirectorySet::class.java).setSrcDirs(listOf("src/test/groovy", "src/test/java"))
+        val testSourceSet =
+            project.extensions.getByType(SourceSetContainer::class.java).getByName(SourceSet.TEST_SOURCE_SET_NAME)
+        testSourceSet.extensions.getByType(GroovySourceDirectorySet::class.java)
+            .setSrcDirs(listOf("src/test/groovy", "src/test/java"))
         // no source directory for compileTestJava as the groovy task already compiles both, groovy and java files.
         testSourceSet.java.setSrcDirs(emptySet<String>())
 
         project.tasks.apply {
-            withType(KotlinCompile::class.java).configureEach {
-                it.kotlinOptions {
-                    jvmTarget = "18"
-                }
-            }
-
             register("syncIdeaSettings", SyncIdeaSettingsTask::class.java)
 
             getByName("build").finalizedBy(project.tasks.getByName("syncIdeaSettings"))
@@ -82,6 +79,11 @@ class SiriusParentPlugin : Plugin<Project> {
             it.tasks.withType(SyncIdeaSettingsTask::class.java).configureEach { task ->
                 task.ideaSettingsUri = extension.ideaSettingsUri
             }
+        }
+
+        project.extensions.getByType(JavaPluginExtension::class.java).toolchain.apply {
+            languageVersion.set(JavaLanguageVersion.of(18))
+            vendor.set(JvmVendorSpec.ADOPTIUM)
         }
 
         project.extensions.getByType(JavaPluginExtension::class.java).apply {
@@ -162,7 +164,7 @@ class SiriusParentPlugin : Plugin<Project> {
     private fun TaskContainer.initializeTestJarTask() {
         register("testJar", Jar::class.java)
         val testJar = getByPath("testJar") as Jar
-        testJar.setProperty("classifier", "tests")
+        testJar.setProperty("archiveClassifier", "tests")
         testJar.from(getByName("compileTestGroovy"))
     }
 
