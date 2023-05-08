@@ -151,14 +151,28 @@ class SiriusParentPlugin : Plugin<Project> {
         }
     }
 
-    private fun TaskContainer.initializeTestTask() {
-        val testTaskFull = getByPath("test") as Test
-        testTaskFull.setIncludes(listOf("**/*TestSuite.class"))
-        testTaskFull.jvmArgs = listOf("-Ddebug=true")
-        testTaskFull.testLogging { logging ->
+    private fun initTestTask(testTask: Test): Test {
+        testTask.group = "verification"
+        testTask.jvmArgs = listOf("-Ddebug=true")
+        testTask.testLogging { logging ->
             logging.events = setOf(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
         }
-        testTaskFull.useJUnitPlatform()
+        testTask.useJUnitPlatform()
+        return testTask
+    }
+
+    private fun TaskContainer.initializeTestTask() {
+        initTestTask(getByPath("test") as Test).setIncludes(listOf("**/*TestSuite.class"))
+    }
+
+    private fun TaskContainer.initializeTestTaskWithoutNightly() {
+        val testTaskWithoutNightly = initTestTask(register("testWithoutNightly", Test::class.java).get())
+        testTaskWithoutNightly.dependsOn(getByName("testClasses"))
+        testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class"))
+        testTaskWithoutNightly.systemProperty("test.excluded.groups", "nightly")
+        testTaskWithoutNightly.useJUnitPlatform { platformOptions ->
+            platformOptions.excludeTags = setOf("nightly")
+        }
     }
 
     private fun TaskContainer.initializeTestJarTask() {
@@ -166,22 +180,6 @@ class SiriusParentPlugin : Plugin<Project> {
         val testJar = getByPath("testJar") as Jar
         testJar.setProperty("archiveClassifier", "tests")
         testJar.from(getByName("compileTestGroovy"))
-    }
-
-    private fun TaskContainer.initializeTestTaskWithoutNightly() {
-        register("testWithoutNightly", Test::class.java)
-        val testTaskWithoutNightly = getByName("testWithoutNightly") as Test
-        testTaskWithoutNightly.dependsOn(getByName("testClasses"))
-        testTaskWithoutNightly.group = "verification"
-        testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class"))
-        testTaskWithoutNightly.jvmArgs = listOf("-Ddebug=true")
-        testTaskWithoutNightly.testLogging { logging ->
-            logging.events = setOf(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
-        }
-        testTaskWithoutNightly.systemProperty("test.excluded.groups", "nightly")
-        testTaskWithoutNightly.useJUnitPlatform { platformOptions ->
-            platformOptions.excludeTags = setOf("nightly")
-        }
     }
 
     private fun TaskContainer.addCopyMarkerAction(project: Project, output: String) {
