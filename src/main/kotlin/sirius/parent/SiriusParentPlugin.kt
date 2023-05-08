@@ -59,6 +59,7 @@ class SiriusParentPlugin : Plugin<Project> {
 
             initializeTestJarTask()
             initializeTestTask()
+            initializeIndividualTestTask()
             initializeTestTaskWithoutNightly()
 
             addCopyMarkerAction(project, "java")
@@ -163,6 +164,11 @@ class SiriusParentPlugin : Plugin<Project> {
 
     private fun TaskContainer.initializeTestTask() {
         initTestTask(getByPath("test") as Test).setIncludes(listOf("**/*TestSuite.class"))
+    }
+
+    private fun TaskContainer.initializeIndividualTestTask() {
+        val testIndividual = initTestTask(register("testIndividual", Test::class.java).get())
+        testIndividual.dependsOn(getByName("testClasses"))
     }
 
     private fun TaskContainer.initializeTestTaskWithoutNightly() {
