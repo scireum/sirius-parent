@@ -59,7 +59,7 @@ class SiriusParentPlugin : Plugin<Project> {
 
             initializeTestJarTask()
             initializeTestTask()
-            initializeIndividualTestTask()
+            initializeTestWithoutFilterTask()
             initializeTestTaskWithoutNightly()
 
             addCopyMarkerAction(project, "java")
@@ -163,18 +163,17 @@ class SiriusParentPlugin : Plugin<Project> {
     }
 
     private fun TaskContainer.initializeTestTask() {
-        initTestTask(getByPath("test") as Test).setIncludes(listOf("**/*TestSuite.class"))
+        initTestTask(getByPath("test") as Test).setIncludes(listOf("**/*TestSuite.class", "**/*Test.class"))
     }
 
-    private fun TaskContainer.initializeIndividualTestTask() {
-        val testIndividual = initTestTask(register("testIndividual", Test::class.java).get())
-        testIndividual.dependsOn(getByName("testClasses"))
+    private fun TaskContainer.initializeTestWithoutFilterTask() {
+        initTestTask(register("testWithoutFilter", Test::class.java).get()).dependsOn(getByName("testClasses"))
     }
 
     private fun TaskContainer.initializeTestTaskWithoutNightly() {
         val testTaskWithoutNightly = initTestTask(register("testWithoutNightly", Test::class.java).get())
         testTaskWithoutNightly.dependsOn(getByName("testClasses"))
-        testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class"))
+        testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class", "**/*Test.class"))
         testTaskWithoutNightly.systemProperty("test.excluded.groups", "nightly")
         testTaskWithoutNightly.useJUnitPlatform { platformOptions ->
             platformOptions.excludeTags = setOf("nightly")
