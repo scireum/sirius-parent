@@ -49,8 +49,8 @@ class SiriusParentPlugin : Plugin<Project> {
             project.extensions.getByType(SourceSetContainer::class.java).getByName(SourceSet.TEST_SOURCE_SET_NAME)
         testSourceSet.extensions.getByType(GroovySourceDirectorySet::class.java)
             .setSrcDirs(listOf("src/test/groovy", "src/test/java"))
-        // no source directory for compileTestJava as the groovy task already compiles both, groovy and java files.
-        testSourceSet.java.setSrcDirs(emptySet<String>())
+        // Configure source set for Kotlin tests
+        testSourceSet.java.setSrcDirs(listOf("src/test/kotlin"))
 
         project.tasks.apply {
             register("syncIdeaSettings", SyncIdeaSettingsTask::class.java)
