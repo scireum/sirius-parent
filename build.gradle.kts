@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "1.8.21"
-    id("com.gradle.plugin-publish") version "1.2.0"
+    id("com.gradle.plugin-publish") version "1.1.0"
 }
 
 repositories {
@@ -27,16 +27,18 @@ publishing {
 
 // Set up publishing details for the official Gradle plugin portal
 gradlePlugin {
-    website.set("https://scireum.de")
-    vcsUrl.set("https://github.com/scireum/sirius-parent")
-
     plugins {
         create("siriusParent") {
             id = "com.scireum.sirius-parent"
             displayName = "SIRIUS Parent"
             description = "Provides basic setup and configuration for all SIRIUS libraries"
             implementationClass = "sirius.parent.SiriusParentPlugin"
-            tags.set(listOf("scireum", "sirius", "setup", "parent"))
         }
     }
+}
+
+pluginBundle {
+    website = "https://scireum.de"
+    vcsUrl = "https://github.com/scireum/sirius-parent"
+    tags = listOf("scireum", "sirius", "setup", "parent")
 }

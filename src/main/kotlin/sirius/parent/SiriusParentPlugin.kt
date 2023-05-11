@@ -2,6 +2,7 @@
 
 package sirius.parent
 
+import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
@@ -18,9 +19,8 @@ import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.jvm.tasks.Jar
-import org.gradle.jvm.toolchain.JavaLanguageVersion
-import org.gradle.jvm.toolchain.JvmVendorSpec
 import org.gradle.testing.jacoco.tasks.JacocoReport
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
 
 open class SiriusParentPluginExtension {
@@ -53,6 +53,12 @@ class SiriusParentPlugin : Plugin<Project> {
         testSourceSet.java.setSrcDirs(listOf("src/test/kotlin"))
 
         project.tasks.apply {
+            withType(KotlinCompile::class.java).configureEach {
+                it.kotlinOptions {
+                    jvmTarget = "18"
+                }
+            }
+
             register("syncIdeaSettings", SyncIdeaSettingsTask::class.java)
 
             getByName("build").finalizedBy(project.tasks.getByName("syncIdeaSettings"))
@@ -82,12 +88,9 @@ class SiriusParentPlugin : Plugin<Project> {
             }
         }
 
-        project.extensions.getByType(JavaPluginExtension::class.java).toolchain.apply {
-            languageVersion.set(JavaLanguageVersion.of(18))
-            vendor.set(JvmVendorSpec.ADOPTIUM)
-        }
-
         project.extensions.getByType(JavaPluginExtension::class.java).apply {
+            sourceCompatibility = JavaVersion.VERSION_18
+            targetCompatibility = JavaVersion.VERSION_18
             withSourcesJar()
         }
 
