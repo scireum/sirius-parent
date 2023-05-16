@@ -48,9 +48,9 @@ class SiriusParentPlugin : Plugin<Project> {
 
         // set source directories for groovy compilation
         val testSourceSet =
-                project.extensions.getByType(SourceSetContainer::class.java).getByName(SourceSet.TEST_SOURCE_SET_NAME)
+            project.extensions.getByType(SourceSetContainer::class.java).getByName(SourceSet.TEST_SOURCE_SET_NAME)
         testSourceSet.extensions.getByType(GroovySourceDirectorySet::class.java)
-                .setSrcDirs(listOf("src/test/groovy", "src/test/java"))
+            .setSrcDirs(listOf("src/test/groovy", "src/test/java"))
         // Configure source set for Kotlin tests
         testSourceSet.java.setSrcDirs(listOf("src/test/kotlin"))
 
@@ -195,6 +195,7 @@ class SiriusParentPlugin : Plugin<Project> {
         register("testJar", Jar::class.java)
         val testJar = getByPath("testJar") as Jar
         testJar.setProperty("archiveClassifier", "tests")
+        testJar.dependsOn(getByName("testClasses"))
         testJar.from(getByName("compileTestGroovy"))
     }
 
