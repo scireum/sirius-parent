@@ -42,14 +42,15 @@ class SiriusParentPlugin : Plugin<Project> {
 
         applyGradlePlugins(project)
 
+        setupRuntimeDependencies(project)
         setupTestDependencies(project)
         setupTestDependenciesForJUnit4(project)
 
         // set source directories for groovy compilation
         val testSourceSet =
-            project.extensions.getByType(SourceSetContainer::class.java).getByName(SourceSet.TEST_SOURCE_SET_NAME)
+                project.extensions.getByType(SourceSetContainer::class.java).getByName(SourceSet.TEST_SOURCE_SET_NAME)
         testSourceSet.extensions.getByType(GroovySourceDirectorySet::class.java)
-            .setSrcDirs(listOf("src/test/groovy", "src/test/java"))
+                .setSrcDirs(listOf("src/test/groovy", "src/test/java"))
         // Configure source set for Kotlin tests
         testSourceSet.java.setSrcDirs(listOf("src/test/kotlin"))
 
@@ -122,6 +123,12 @@ class SiriusParentPlugin : Plugin<Project> {
             apply("kotlin")
             apply("jacoco")
             apply(MavenPublishPlugin::class.java)
+        }
+    }
+
+    private fun setupRuntimeDependencies(project: Project) {
+        project.dependencies.apply {
+            add("api", platform("com.fasterxml.jackson:jackson-bom:2.15.0"))
         }
     }
 
