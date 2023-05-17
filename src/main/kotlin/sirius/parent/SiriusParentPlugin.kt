@@ -192,8 +192,7 @@ class SiriusParentPlugin : Plugin<Project> {
     }
 
     private fun TaskContainer.initializeTestJarTask() {
-        register("testJar", Jar::class.java)
-        val testJar = getByPath("testJar") as Jar
+        val testJar = register("testJar", Jar::class.java).get()
         testJar.setProperty("archiveClassifier", "tests")
         testJar.dependsOn(getByName("testClasses"))
         testJar.from(getByName("compileTestGroovy"))
