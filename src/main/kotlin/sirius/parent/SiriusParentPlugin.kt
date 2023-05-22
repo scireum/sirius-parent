@@ -6,9 +6,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
-import org.gradle.api.plugins.GroovyPlugin
-import org.gradle.api.plugins.JavaPlugin
-import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.plugins.*
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
@@ -96,6 +94,10 @@ class SiriusParentPlugin : Plugin<Project> {
             withSourcesJar()
         }
 
+        project.extensions.getByType(JavaApplication::class.java).apply {
+            mainClass.set("sirius.kernel.Setup")
+        }
+
         project.extensions.getByType(PublishingExtension::class.java).apply {
             publications {
                 it.create(project.name, MavenPublication::class.java) { publication ->
@@ -123,6 +125,7 @@ class SiriusParentPlugin : Plugin<Project> {
             apply("kotlin")
             apply("jacoco")
             apply(MavenPublishPlugin::class.java)
+            apply(ApplicationPlugin::class.java)
         }
     }
 
