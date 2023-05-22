@@ -59,9 +59,7 @@ class SiriusParentPlugin : Plugin<Project> {
                 }
             }
 
-            register("syncIdeaSettings", SyncIdeaSettingsTask::class.java)
-
-            getByName("build").finalizedBy(project.tasks.getByName("syncIdeaSettings"))
+            getByName("build").finalizedBy(register("syncIdeaSettings", SyncIdeaSettingsTask::class.java).get())
 
             initializeTestJarTask()
             initializeTestTask()
