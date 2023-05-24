@@ -63,7 +63,6 @@ class SiriusParentPlugin : Plugin<Project> {
 
             initializeTestJarTask()
             initializeTestTask()
-            initializeTestWithoutFilterTask()
             initializeTestTaskWithoutNightly()
 
             addCopyMarkerAction(project, "java")
@@ -176,10 +175,6 @@ class SiriusParentPlugin : Plugin<Project> {
 
     private fun TaskContainer.initializeTestTask() {
         initTestTask(getByPath("test") as Test).setIncludes(listOf("**/*TestSuite.class", "**/*Test.class"))
-    }
-
-    private fun TaskContainer.initializeTestWithoutFilterTask() {
-        initTestTask(register("testWithoutFilter", Test::class.java).get()).dependsOn(getByName("testClasses"))
     }
 
     private fun TaskContainer.initializeTestTaskWithoutNightly() {
