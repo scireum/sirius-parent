@@ -42,7 +42,7 @@ class SiriusParentPlugin : Plugin<Project> {
 
         setupRuntimeDependencies(project)
         setupTestDependencies(project)
-        setupTestDependenciesForJUnit4(project)
+        setupImplementationDependenciesForJUnit4Tests(project)
 
         // set source directories for groovy compilation
         val testSourceSet =
@@ -141,6 +141,7 @@ class SiriusParentPlugin : Plugin<Project> {
             add("testImplementation", "org.junit.jupiter:junit-jupiter")
             add("testImplementation", "org.junit.jupiter:junit-jupiter-params")
             add("testRuntimeOnly", "org.junit.jupiter:junit-jupiter-engine")
+            add("testRuntimeOnly", "org.junit.vintage:junit-vintage-engine:5.8.2")
 
             add("testImplementation", platform("org.jetbrains.kotlin:kotlin-bom:1.8.21"))
             add("testImplementation", "org.jetbrains.kotlin:kotlin-stdlib")
@@ -150,10 +151,9 @@ class SiriusParentPlugin : Plugin<Project> {
         }
     }
 
-    private fun setupTestDependenciesForJUnit4(project: Project) {
+    private fun setupImplementationDependenciesForJUnit4Tests(project: Project) {
         project.dependencies.apply {
             add("testImplementation", "junit:junit:4.12")
-            add("testRuntimeOnly", "org.junit.vintage:junit-vintage-engine:5.8.2")
             // For legacy junit4 and scenario support. Include JUNIT-Toolbox for testing.
             add("testImplementation", "com.googlecode.junit-toolbox:junit-toolbox:2.4")
             // Include Spock for testing.
