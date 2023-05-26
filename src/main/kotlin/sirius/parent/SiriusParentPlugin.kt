@@ -191,10 +191,12 @@ class SiriusParentPlugin : Plugin<Project> {
         val testJar = register("testJar", Jar::class.java).get()
         testJar.setProperty("archiveClassifier", "tests")
         testJar.dependsOn(getByName("testClasses"))
-        testJar.from(getByName("compileTestGroovy"))
+        testJar.from(getByName("compileTestGroovy"), getByName("compileTestJava"), getByName("compileTestKotlin"))
+        testJar.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 
     private fun TaskContainer.addCopyMarkerAction(project: Project, output: String) {
+        getByName("classes").doLast(CopyMarkerAction(project, output))
         getByName("testClasses").doLast(CopyMarkerAction(project, output))
     }
 }

@@ -3,6 +3,7 @@ package sirius.parent
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.file.DuplicatesStrategy
 
 
 open class CopyMarkerAction(private val project: Project, private val output: String) : Action<Task> {
@@ -12,6 +13,7 @@ open class CopyMarkerAction(private val project: Project, private val output: St
             copySpec.from("${project.buildDir}/resources/")
             copySpec.into("${project.buildDir}/classes/$output")
             copySpec.include("**/*.marker")
+            copySpec.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         }
     }
 
