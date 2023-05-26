@@ -15,7 +15,6 @@ import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.testing.Test
-import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.jvm.tasks.Jar
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -164,27 +163,34 @@ class SiriusParentPlugin : Plugin<Project> {
     }
 
     private fun initTestTask(testTask: Test): Test {
+        return initTestTask(testTask, emptySet())
+    }
+
+    private fun initTestTask(testTask: Test, excludedTags: Set<String>): Test {
         testTask.group = "verification"
         testTask.jvmArgs = listOf("-Ddebug=true")
         testTask.testLogging { logging ->
-            logging.events = setOf(TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR)
+            logging.showStandardStreams = true
+            logging.showExceptions = true
         }
-        testTask.useJUnitPlatform()
+        testTask.useJUnitPlatform { platformOptions ->
+            platformOptions.includeEngines = setOf("junit-jupiter", "junit-vintage")
+            platformOptions.excludeTags = excludedTags
+        }
         return testTask
     }
 
     private fun TaskContainer.initializeTestTask() {
         initTestTask(getByPath("test") as Test).setIncludes(listOf("**/*TestSuite.class", "**/*Test.class"))
+            .dependsOn(getByName("testClasses"))
     }
 
     private fun TaskContainer.initializeTestTaskWithoutNightly() {
-        val testTaskWithoutNightly = initTestTask(register("testWithoutNightly", Test::class.java).get())
+        val testTaskWithoutNightly =
+            initTestTask(register("testWithoutNightly", Test::class.java).get(), setOf("nightly"))
         testTaskWithoutNightly.dependsOn(getByName("testClasses"))
         testTaskWithoutNightly.setIncludes(listOf("**/*TestSuite.class", "**/*Test.class"))
         testTaskWithoutNightly.systemProperty("test.excluded.groups", "nightly")
-        testTaskWithoutNightly.useJUnitPlatform { platformOptions ->
-            platformOptions.excludeTags = setOf("nightly")
-        }
     }
 
     private fun TaskContainer.initializeTestJarTask() {
