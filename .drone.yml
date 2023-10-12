@@ -17,13 +17,13 @@ clone:
 
 steps:
   - name: validate
-    image: scireum/sirius-build
+    image: scireum/sirius-build-jdk21
     commands:
       - mvn clean validate -U
     volumes: *scireum_volumes
 
   - name: deploy
-    image: scireum/sirius-build
+    image: scireum/sirius-build-jdk21
     commands:
       - sed -i 's/DEVELOPMENT-SNAPSHOT/${DRONE_TAG}/g' pom.xml
       - mvn clean deploy
