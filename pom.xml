@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    The is the parent POM used by all scireum and sirius projects.
+    This is the parent POM used by all scireum and sirius projects.
     This will enforce a sane build process and upload artifacts to sonatype
     or applications to SDS.
 -->
@@ -16,11 +16,11 @@
     <!-- Overwrite this block if necessary -->
     <name>Sirius Parent</name>
     <description>Provides a parent pom for all Sirius modules</description>
-    <url>http://www.sirius-lib.net</url>
+    <url>https://www.sirius-lib.net</url>
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>http://opensource.org/licenses/MIT</url>
+            <url>https://opensource.org/licenses/MIT</url>
         </license>
     </licenses>
     <developers>
@@ -28,7 +28,7 @@
             <name>scireum</name>
             <email>info@scireum.de</email>
             <organization>scireum GmbH</organization>
-            <organizationUrl>http://www.scireum.de</organizationUrl>
+            <organizationUrl>https://www.scireum.de</organizationUrl>
         </developer>
     </developers>
 
@@ -75,7 +75,7 @@
         </repository>
     </distributionManagement>
 
-    <!-- Builds a SCM url for github based on the owner and artifact id -->
+    <!-- Builds an SCM url for GitHub based on the owner and artifact id -->
     <scm>
         <connection>scm:git:git@github.com:${project.owner}/${project.repository}.git</connection>
         <developerConnection>scm:git:git@github.com:${project.owner}/${project.repository}.git</developerConnection>
@@ -244,8 +244,8 @@
                     </plugin>
 
                     <plugin>
-                        <artifactId>kotlin-maven-plugin</artifactId>
                         <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-plugin</artifactId>
                         <version>${kotlin.version}</version>
 
                         <executions>
