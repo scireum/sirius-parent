@@ -55,7 +55,7 @@
         <project.owner>scireum</project.owner>
         <project.repository>${project.artifactId}</project.repository>
 
-        <!-- By default we update the copyright to the sirius/scireum text -->
+        <!-- By default, we update the copyright to the sirius/scireum text -->
         <!-- As "real" companies also use this parent, the following can be set to exclude the enforces copyright -->
         <!-- <sirius.ideaExcludes>.idea/copyright/**</sirius.ideaExcludes> -->
 
