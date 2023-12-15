@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    The is the parent POM used by all scireum and sirius projects.
+    This is the parent POM used by all scireum and sirius projects.
     This will enforce a sane build process and upload artifacts to sonatype
     or applications to SDS.
 -->
@@ -16,11 +16,11 @@
     <!-- Overwrite this block if necessary -->
     <name>Sirius Parent</name>
     <description>Provides a parent pom for all Sirius modules</description>
-    <url>http://www.sirius-lib.net</url>
+    <url>https://www.sirius-lib.net</url>
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>http://opensource.org/licenses/MIT</url>
+            <url>https://opensource.org/licenses/MIT</url>
         </license>
     </licenses>
     <developers>
@@ -28,7 +28,7 @@
             <name>scireum</name>
             <email>info@scireum.de</email>
             <organization>scireum GmbH</organization>
-            <organizationUrl>http://www.scireum.de</organizationUrl>
+            <organizationUrl>https://www.scireum.de</organizationUrl>
         </developer>
     </developers>
 
@@ -55,11 +55,11 @@
         <project.owner>scireum</project.owner>
         <project.repository>${project.artifactId}</project.repository>
 
-        <!-- By default we update the copyright to the sirius/scireum text -->
+        <!-- By default, we update the copyright to the sirius/scireum text -->
         <!-- As "real" companies also use this parent, the following can be set to exclude the enforces copyright -->
         <!-- <sirius.ideaExcludes>.idea/copyright/**</sirius.ideaExcludes> -->
 
-        <kotlin.version>1.6.20</kotlin.version>
+        <kotlin.version>1.9.21</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     </properties>
     <repositories>
@@ -75,7 +75,7 @@
         </repository>
     </distributionManagement>
 
-    <!-- Builds a SCM url for github based on the owner and artifact id -->
+    <!-- Builds an SCM url for GitHub based on the owner and artifact id -->
     <scm>
         <connection>scm:git:git@github.com:${project.owner}/${project.repository}.git</connection>
         <developerConnection>scm:git:git@github.com:${project.owner}/${project.repository}.git</developerConnection>
@@ -244,8 +244,8 @@
                     </plugin>
 
                     <plugin>
-                        <artifactId>kotlin-maven-plugin</artifactId>
                         <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-plugin</artifactId>
                         <version>${kotlin.version}</version>
 
                         <executions>
@@ -280,7 +280,7 @@
                     <!-- We never use the classic maven deploy -->
                     <plugin>
                         <artifactId>maven-deploy-plugin</artifactId>
-                        <version>2.8.2</version>
+                        <version>3.1.1</version>
                         <configuration>
                             <skip>false</skip>
                         </configuration>
@@ -376,7 +376,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
-                        <version>3.0.0</version>
+                        <version>3.6.1</version>
                         <executions>
                             <execution>
                                 <id>validate</id>
@@ -419,7 +419,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
-                        <version>3.1.2</version>
+                        <version>3.6.1</version>
                         <executions>
                             <execution>
                                 <id>validate</id>
@@ -454,7 +454,7 @@
             <!-- We never use the classic maven deploy -->
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
+                <version>3.1.1</version>
                 <configuration>
                     <skip>false</skip>
                 </configuration>
@@ -508,7 +508,7 @@
         <dependency>
             <groupId>io.mockk</groupId>
             <artifactId>mockk</artifactId>
-            <version>1.12.3</version>
+            <version>1.13.8</version>
             <scope>test</scope>
         </dependency>
 
@@ -532,7 +532,7 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.14.9</version>
+            <version>1.14.10</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -548,14 +548,14 @@
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
-                <version>5.9.3</version>
+                <version>5.10.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.15.2</version>
+                <version>2.16.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
