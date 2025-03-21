@@ -200,11 +200,9 @@
                         <artifactId>maven-compiler-plugin</artifactId>
                         <version>3.14.0</version>
                         <configuration>
-                            <compilerVersion>${maven.compiler.source}</compilerVersion>
                             <fork>true</fork>
                             <release>${maven.compiler.release}</release>
                             <debug>true</debug>
-                            <optimize>true</optimize>
                             <showDeprecation>true</showDeprecation>
                             <showWarnings>true</showWarnings>
                             <compilerArgs>
