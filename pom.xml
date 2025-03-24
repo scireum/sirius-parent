@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     This is the parent POM used by all scireum and sirius projects.
-    This will enforce a sane build process and upload artifacts to sonatype
-    or applications to SDS.
+    This will enforce a sane build process.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.scireum</groupId>
     <artifactId>sirius-parent</artifactId>
@@ -34,8 +33,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
+        <maven.compiler.release>23</maven.compiler.release>
         <!-- Highlight unchecked and deprecation warnings -->
         <maven.compiler.lint>-Xlint:-options,unchecked,deprecation</maven.compiler.lint>
         <!-- Break the build when warnings occur. 
@@ -58,8 +56,12 @@
         <!-- By default, we update the copyright to the sirius/scireum text -->
         <!-- As "real" companies also use this parent, the following can be set to exclude the enforces copyright -->
         <!-- <sirius.ideaExcludes>.idea/copyright/**</sirius.ideaExcludes> -->
+        
+        <plugin.maven-deploy-plugin.version>3.1.4</plugin.maven-deploy-plugin.version>
+        <plugin.maven-assembly-plugin.version>3.7.1</plugin.maven-assembly-plugin.version>
+        <plugin.maven-dependency-plugin.version>3.8.1</plugin.maven-dependency-plugin.version>
 
-        <kotlin.version>2.1.0</kotlin.version>
+        <kotlin.version>2.1.10</kotlin.version>
         <kotlin.compiler.languageVersion>2.1</kotlin.compiler.languageVersion>
         <kotlin.compiler.apiVersion>2.1</kotlin.compiler.apiVersion>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
@@ -124,7 +126,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.2.0</version>
+                        <version>3.4.2</version>
                         <configuration>
                             <excludes>
                                 <exclude>**/*Test.*</exclude>
@@ -145,7 +147,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.2.1</version>
+                        <version>3.3.1</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -160,7 +162,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.22.2</version>
+                        <version>3.5.2</version>
                         <configuration>
                             <groups>${test.included.groups}</groups>
                             <excludedGroups>${test.excluded.groups}</excludedGroups>
@@ -169,7 +171,7 @@
 
                     <plugin>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.7</version>
+                        <version>3.1.0</version>
                         <executions>
                             <execution>
                                 <id>groovyc</id>
@@ -196,14 +198,11 @@
 
                     <plugin>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.8.1</version>
+                        <version>3.14.0</version>
                         <configuration>
-                            <compilerVersion>${maven.compiler.source}</compilerVersion>
                             <fork>true</fork>
-                            <source>${maven.compiler.source}</source>
-                            <target>${maven.compiler.target}</target>
+                            <release>${maven.compiler.release}</release>
                             <debug>true</debug>
-                            <optimize>true</optimize>
                             <showDeprecation>true</showDeprecation>
                             <showWarnings>true</showWarnings>
                             <compilerArgs>
@@ -233,6 +232,7 @@
                     </plugin>
                     <plugin>
                         <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${plugin.maven-dependency-plugin.version}</version>
                         <executions>
                             <execution>
                                 <phase>verify</phase>
@@ -283,7 +283,7 @@
                     <!-- We never use the classic maven deploy -->
                     <plugin>
                         <artifactId>maven-deploy-plugin</artifactId>
-                        <version>3.1.1</version>
+                        <version>${plugin.maven-deploy-plugin.version}</version>
                         <configuration>
                             <skip>false</skip>
                         </configuration>
@@ -305,6 +305,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
+                        <version>${plugin.maven-assembly-plugin.version}</version>
                         <configuration>
                             <descriptorRefs>
                                 <descriptorRef>dir</descriptorRef>
@@ -344,7 +345,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>3.3.0</version>
+                        <version>${plugin.maven-assembly-plugin.version}</version>
                         <configuration>
                             <descriptors>
                                 <descriptor>parent-jar.xml</descriptor>
@@ -379,7 +380,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
-                        <version>3.6.1</version>
+                        <version>${plugin.maven-dependency-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>validate</id>
@@ -422,7 +423,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
-                        <version>3.6.1</version>
+                        <version>${plugin.maven-dependency-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>validate</id>
@@ -457,7 +458,7 @@
             <!-- We never use the classic maven deploy -->
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>${plugin.maven-deploy-plugin.version}</version>
                 <configuration>
                     <skip>false</skip>
                 </configuration>
@@ -468,7 +469,7 @@
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ftp</artifactId>
-                <version>3.4.3</version>
+                <version>3.5.3</version>
             </extension>
         </extensions>
     </build>
@@ -511,7 +512,7 @@
         <dependency>
             <groupId>io.mockk</groupId>
             <artifactId>mockk-jvm</artifactId>
-            <version>1.13.13</version>
+            <version>1.13.17</version>
             <scope>test</scope>
         </dependency>
 
@@ -535,7 +536,7 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.15.10</version>
+            <version>1.17.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -551,14 +552,14 @@
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
-                <version>5.11.3</version>
+                <version>5.12.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.18.2</version>
+                <version>2.18.3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
