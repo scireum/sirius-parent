@@ -65,6 +65,8 @@
         <plugin.maven-assembly-plugin.version>3.7.1</plugin.maven-assembly-plugin.version>
         <plugin.maven-dependency-plugin.version>3.9.0</plugin.maven-dependency-plugin.version>
 
+        <!-- The current version of Kotlin Maven Plugin and its setup can be seen here:
+             https://kotlinlang.org/docs/maven.html -->
         <kotlin.version>2.2.20</kotlin.version>
         <kotlin.compiler.languageVersion>2.2</kotlin.compiler.languageVersion>
         <kotlin.compiler.apiVersion>2.2</kotlin.compiler.apiVersion>
