@@ -474,6 +474,7 @@
         </plugins>
         <extensions>
             <!-- Enabling the use of FTP -->
+            <!-- Current Release: https://maven.apache.org/wagon/wagon-providers/wagon-ftp/summary.html -->
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ftp</artifactId>
@@ -517,14 +518,16 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- Changelog: https://github.com/mockk/mockk/releases -->
         <dependency>
             <groupId>io.mockk</groupId>
             <artifactId>mockk-jvm</artifactId>
-            <version>1.14.4</version>
+            <version>1.14.6</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- For legacy junit4 and scenario support. Include JUNIT-Toolbox for testing -->
+        <!-- For legacy junit4 and scenario support. Include JUNIT-Toolbox for testing
+             We want to get rid of junit4, and so we simply freeze this version -->
         <dependency>
             <groupId>com.googlecode.junit-toolbox</groupId>
             <artifactId>junit-toolbox</artifactId>
@@ -532,7 +535,8 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Include Spock for testing -->
+        <!-- Include Spock for testing
+             We want to get rid of junit4, and so we simply freeze this version -->
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
@@ -540,7 +544,8 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Include bytebuddy and objenesis for advanced mocking at spockframework -->
+        <!-- Include bytebuddy and objenesis for advanced mocking at spockframework
+             We want to get rid of junit4, and so we simply freeze this version -->
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
@@ -561,15 +566,15 @@
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
-                <version>5.13.4</version>
+                <version>6.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <!-- Release notes: https://github.com/FasterXML/jackson/wiki/Jackson-Releases -->
             <dependency>
-                <groupId>com.fasterxml.jackson</groupId>
+                <groupId>tools.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.19.1</version>
+                <version>3.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
