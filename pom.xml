@@ -572,9 +572,9 @@
             </dependency>
             <!-- Release notes: https://github.com/FasterXML/jackson/wiki/Jackson-Releases -->
             <dependency>
-                <groupId>tools.jackson</groupId>
+                <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>3.0.0</version>
+                <version>2.20.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
