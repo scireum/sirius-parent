@@ -56,7 +56,11 @@
         <!-- By default, we update the copyright to the sirius/scireum text -->
         <!-- As "real" companies also use this parent, the following can be set to exclude the enforces copyright -->
         <!-- <sirius.ideaExcludes>.idea/copyright/**</sirius.ideaExcludes> -->
-        
+
+        <!-- Overview of all Maven Plugin versions: https://maven.apache.org/plugins/index.html
+             also valid for other plugins defined down below in this file,
+             recognizable by the groupId org.apache.maven.* -->
+
         <plugin.maven-deploy-plugin.version>3.1.4</plugin.maven-deploy-plugin.version>
         <plugin.maven-assembly-plugin.version>3.7.1</plugin.maven-assembly-plugin.version>
         <plugin.maven-dependency-plugin.version>3.9.0</plugin.maven-dependency-plugin.version>
@@ -200,7 +204,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.14.0</version>
+                        <version>3.14.1</version>
                         <configuration>
                             <fork>true</fork>
                             <release>${maven.compiler.release}</release>
