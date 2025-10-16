@@ -56,12 +56,19 @@
         <!-- By default, we update the copyright to the sirius/scireum text -->
         <!-- As "real" companies also use this parent, the following can be set to exclude the enforces copyright -->
         <!-- <sirius.ideaExcludes>.idea/copyright/**</sirius.ideaExcludes> -->
-        
+
+        <!-- Overview of all Maven Plugin versions: https://maven.apache.org/plugins/index.html
+             also valid for other plugins defined down below in this file,
+             recognizable by the groupId org.apache.maven.* -->
+
         <plugin.maven-deploy-plugin.version>3.1.4</plugin.maven-deploy-plugin.version>
         <plugin.maven-assembly-plugin.version>3.7.1</plugin.maven-assembly-plugin.version>
-        <plugin.maven-dependency-plugin.version>3.8.1</plugin.maven-dependency-plugin.version>
+        <plugin.maven-dependency-plugin.version>3.9.0</plugin.maven-dependency-plugin.version>
 
-        <kotlin.version>2.2.0</kotlin.version>
+        <!-- The current version of Kotlin Maven Plugin and its setup can be seen here:
+             https://kotlinlang.org/docs/maven.html -->
+        <!-- Make sure to replicate change done here in src/main/resources/.idea/kotlinc.xml -->
+        <kotlin.version>2.2.20</kotlin.version>
         <kotlin.compiler.languageVersion>2.2</kotlin.compiler.languageVersion>
         <kotlin.compiler.apiVersion>2.2</kotlin.compiler.apiVersion>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
@@ -162,7 +169,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.5.2</version>
+                        <version>3.5.4</version>
                         <configuration>
                             <groups>${test.included.groups}</groups>
                             <excludedGroups>${test.excluded.groups}</excludedGroups>
@@ -170,6 +177,7 @@
                     </plugin>
 
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <version>3.1.0</version>
                         <executions>
@@ -197,8 +205,9 @@
                     </plugin>
 
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.14.0</version>
+                        <version>3.14.1</version>
                         <configuration>
                             <fork>true</fork>
                             <release>${maven.compiler.release}</release>
@@ -332,7 +341,7 @@
             </build>
         </profile>
 
-        <!-- This is exlusively used to create the resources jar for the parent pom. -->
+        <!-- This is exclusively used to create the resources jar for the parent pom. -->
         <profile>
             <id>build-parent</id>
             <activation>
@@ -466,6 +475,7 @@
         </plugins>
         <extensions>
             <!-- Enabling the use of FTP -->
+            <!-- Current Release: https://maven.apache.org/wagon/wagon-providers/wagon-ftp/summary.html -->
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ftp</artifactId>
@@ -509,14 +519,16 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- Changelog: https://github.com/mockk/mockk/releases -->
         <dependency>
             <groupId>io.mockk</groupId>
             <artifactId>mockk-jvm</artifactId>
-            <version>1.14.4</version>
+            <version>1.14.6</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- For legacy junit4 and scenario support. Include JUNIT-Toolbox for testing -->
+        <!-- For legacy junit4 and scenario support. Include JUNIT-Toolbox for testing
+             We want to get rid of junit4, and so we simply freeze this version -->
         <dependency>
             <groupId>com.googlecode.junit-toolbox</groupId>
             <artifactId>junit-toolbox</artifactId>
@@ -524,7 +536,8 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Include Spock for testing -->
+        <!-- Include Spock for testing
+             We want to get rid of junit4, and so we simply freeze this version -->
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
@@ -532,11 +545,12 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Include bytebuddy and objenesis for advanced mocking at spockframework -->
+        <!-- Include bytebuddy and objenesis for advanced mocking at spockframework
+             We want to get rid of junit4, and so we simply freeze this version -->
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.17.2</version>
+            <version>1.17.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -553,7 +567,7 @@
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
-                <version>5.13.3</version>
+                <version>5.14.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -561,7 +575,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.19.1</version>
+                <version>2.20.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
