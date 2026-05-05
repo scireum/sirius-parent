@@ -24,6 +24,8 @@ updates:
     sirius:
       patterns:
         - "com.scireum:sirius-*"
+  # allow more than the standard five open pull requests; this repo is maintained infrequently
+  open-pull-requests-limit: 10
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
