@@ -68,7 +68,7 @@
         <!-- The current version of Kotlin Maven Plugin and its setup can be seen here:
              https://kotlinlang.org/docs/maven.html -->
         <!-- Make sure to replicate change done here in src/main/resources/.idea/kotlinc.xml -->
-        <kotlin.version>2.3.20</kotlin.version>
+        <kotlin.version>2.3.21</kotlin.version>
         <kotlin.compiler.languageVersion>2.3</kotlin.compiler.languageVersion>
         <kotlin.compiler.apiVersion>2.3</kotlin.compiler.apiVersion>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
