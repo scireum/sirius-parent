@@ -62,7 +62,7 @@
              recognizable by the groupId org.apache.maven.* -->
 
         <plugin.maven-deploy-plugin.version>3.1.4</plugin.maven-deploy-plugin.version>
-        <plugin.maven-assembly-plugin.version>3.7.1</plugin.maven-assembly-plugin.version>
+        <plugin.maven-assembly-plugin.version>3.8.0</plugin.maven-assembly-plugin.version>
         <plugin.maven-dependency-plugin.version>3.10.0</plugin.maven-dependency-plugin.version>
 
         <!-- The current version of Kotlin Maven Plugin and its setup can be seen here:
