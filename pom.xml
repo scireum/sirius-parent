@@ -507,9 +507,9 @@
             </dependency>
             <!-- Release notes: https://github.com/FasterXML/jackson/wiki/Jackson-Releases -->
             <dependency>
-                <groupId>com.fasterxml.jackson</groupId>
+                <groupId>tools.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.22.1</version>
+                <version>3.2.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
