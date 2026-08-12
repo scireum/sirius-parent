@@ -33,7 +33,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>24</maven.compiler.release>
+        <maven.compiler.release>26</maven.compiler.release>
         <!-- Highlight unchecked and deprecation warnings -->
         <maven.compiler.lint>-Xlint:-options,unchecked,deprecation</maven.compiler.lint>
         <!-- Break the build when warnings occur. 
@@ -69,10 +69,10 @@
              https://kotlinlang.org/docs/maven.html -->
         <!-- Make sure to replicate change done here in src/main/resources/.idea/kotlinc.xml -->
         <kotlin.version>2.4.10</kotlin.version>
-        <kotlin.compiler.languageVersion>2.3</kotlin.compiler.languageVersion>
-        <kotlin.compiler.apiVersion>2.3</kotlin.compiler.apiVersion>
+        <kotlin.compiler.languageVersion>2.4</kotlin.compiler.languageVersion>
+        <kotlin.compiler.apiVersion>2.4</kotlin.compiler.apiVersion>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
-        <kotlin.compiler.jvmTarget>24</kotlin.compiler.jvmTarget>
+        <kotlin.compiler.jvmTarget>26</kotlin.compiler.jvmTarget>
     </properties>
     <repositories>
         <repository>
