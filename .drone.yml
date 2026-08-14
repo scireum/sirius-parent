@@ -24,7 +24,7 @@ steps:
     image: scireum/sirius-build-jdk26
     commands:
       - sed -i 's/DEVELOPMENT-SNAPSHOT/${DRONE_TAG}/g' pom.xml
-      - mvn clean deploy
+      - mvn clean deploy -Daether.connector.basic.parallelPut=false
     volumes: *scireum_volumes
     when:
       event:
